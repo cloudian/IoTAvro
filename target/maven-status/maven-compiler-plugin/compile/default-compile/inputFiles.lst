@@ -1,3 +1,3 @@
-/Users/Kodiak/Cloudian/avrotemperatureproducer/target/generated-sources/avro/producer/Sample.java
-/Users/Kodiak/Cloudian/avrotemperatureproducer/target/generated-sources/avro/producer/TemperatureData.java
-/Users/Kodiak/Cloudian/avrotemperatureproducer/src/main/java/producer/AvroTempProducer.java
+/home/pi/IoTAvro/src/main/java/producer/AvroTempProducer.java
+/home/pi/IoTAvro/target/generated-sources/avro/producer/TemperatureData.java
+/home/pi/IoTAvro/target/generated-sources/avro/producer/Sample.java

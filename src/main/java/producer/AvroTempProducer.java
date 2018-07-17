@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 
 public class AvroTempProducer {
     private final static String TOPIC = "avro-temp-data";
-    private final static String BOOTSTRAP_SERVERS = "localhost:9092";
+    private final static String BOOTSTRAP_SERVERS = "10.10.0.154:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
     private final static int SECONDS = 1;
@@ -45,7 +45,7 @@ public class AvroTempProducer {
         props.setProperty("bootstrap.servers", BOOTSTRAP_SERVERS);
         props.setProperty("key.serializer", stringSerializer);
         props.setProperty("value.serializer", avroSerializer);
-        props.setProperty("schema.registry.url", "http://localhost:8081");
+        props.setProperty("schema.registry.url", "http://10.10.0.154:8081");
         //props.put("key.serializer", stringSerializer);
         //props.put("value.serializer", jsonSerializer);
         KafkaProducer<String, TemperatureData> producer = new KafkaProducer<>(props);
@@ -56,10 +56,14 @@ public class AvroTempProducer {
         //final Producer<Integer, String> producer = createProducer();
         int partition = 0;
         String key = "not real shit";
-        String data = "fake shit";
-        //String data = getTemp();
-        TemperatureData temp = TemperatureData.newBuilder()
-                .setTemperature("hot as hell")
+        // String data = "fake shit"O";
+        String data = null;
+	while (data == null) {
+		data = getTemp();
+		Thread.sleep(500);
+	}
+        final TemperatureData temp = TemperatureData.newBuilder()
+                .setTemperature(data)
                 .setTimestamp("whenever i want")
                 .build();
 
@@ -69,8 +73,8 @@ public class AvroTempProducer {
             @Override
             public void onCompletion(RecordMetadata metadata, Exception e) {
                 if (e == null) {
+		    
                     System.out.println("Record Successfully Sent");
-                    System.out.println(metadata.toString());
                 } else {
                     System.out.println(e);
 
@@ -95,7 +99,7 @@ public class AvroTempProducer {
 
     public static String getTemp() throws Exception {
         Runtime rt = Runtime.getRuntime();
-        Process p = rt.exec("python /home/pi/DHT11_Python/trial.py");
+        Process p = rt.exec("python trial.py");
         //Process p = rt.exec("echo /home/pi/DHT11_Python/trial.py");
         BufferedReader bri = new BufferedReader(new InputStreamReader(p.getInputStream()));
         String line;
