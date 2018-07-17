@@ -15,4 +15,4 @@ instance = dht11.DHT11(pin=17)
 
 result = instance.read()
 if result.is_valid():
-    print(str(datetime.datetime.now()) + " : " + "Temperature: %d C" % result.temperature)
+    print(str(datetime.datetime.now()) + " " + str(result.temperature))
