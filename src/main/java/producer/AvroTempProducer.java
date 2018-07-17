@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 
 
 public class AvroTempProducer {
-    private final static String TOPIC = "avro-topic";
+    private final static String TOPIC = "avro-temp-data";
     private final static String BOOTSTRAP_SERVERS = "localhost:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
