@@ -60,6 +60,15 @@
                 </configuration>
             </plugin>
 
+            <!-- plugin for executing from command line-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>producer.AvroTempProducer</mainClass>
+                </configuration>
+            </plugin>
 
             <!--for specific record-->
             <plugin>
