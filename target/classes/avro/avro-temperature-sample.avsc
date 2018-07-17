@@ -2,10 +2,10 @@
     "type": "record",
     "namespace": "producer",
     "name": "TemperatureData",
-    "version": "1",
+    "version": "2",
     "fields": [
-        {"name": "timestamp", "type": "string" },
-        {"name": "temperature", "type": "string" }
+        {"name": "timestamp", "type": "string"},
+        {"name": "temperature", "type": "string"}
     ]
 }
 

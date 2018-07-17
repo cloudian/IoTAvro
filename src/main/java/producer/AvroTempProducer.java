@@ -15,13 +15,13 @@ import java.io.InputStreamReader;
 
 
 public class AvroTempProducer {
-    private final static String TOPIC = "s3_topic";
-    private final static String BOOTSTRAP_SERVERS = "10.10.0.154:9092";
+    private final static String TOPIC = "avro-topic";
+    private final static String BOOTSTRAP_SERVERS = "localhost:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
     private final static int SECONDS = 1;
     private final static int PARTITIONS = 0; //zero indexed
-    private static KafkaProducer<String, TemperatureData> producer;
+    private static  KafkaProducer<String, TemperatureData> producer;
 
     public static void main(String[] args) throws Exception {
         //runProducer(5);
@@ -42,9 +42,10 @@ public class AvroTempProducer {
     }
     private static KafkaProducer< String, TemperatureData>createProducer() {
         Properties props = new Properties();
-        props.put("bootstrap.servers", BOOTSTRAP_SERVERS);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, stringSerializer);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, avroSerializer);
+        props.setProperty("bootstrap.servers", BOOTSTRAP_SERVERS);
+        props.setProperty("key.serializer", stringSerializer);
+        props.setProperty("value.serializer", avroSerializer);
+        props.setProperty("schema.registry.url", "http://localhost:8081");
         //props.put("key.serializer", stringSerializer);
         //props.put("value.serializer", jsonSerializer);
         KafkaProducer<String, TemperatureData> producer = new KafkaProducer<>(props);
@@ -58,12 +59,12 @@ public class AvroTempProducer {
         String data = "fake shit";
         //String data = getTemp();
         TemperatureData temp = TemperatureData.newBuilder()
-                .setTemperature("hot as yo mamma")
-                .setTimestamp("whenever she wants it")
+                .setTemperature("hot as hell")
+                .setTimestamp("whenever i want")
                 .build();
 
         final ProducerRecord<String, TemperatureData> record =
-                new ProducerRecord<String, TemperatureData>(TOPIC, key, temp);
+                new ProducerRecord<String, TemperatureData>(TOPIC, temp);
         producer.send(record, new Callback() {
             @Override
             public void onCompletion(RecordMetadata metadata, Exception e) {

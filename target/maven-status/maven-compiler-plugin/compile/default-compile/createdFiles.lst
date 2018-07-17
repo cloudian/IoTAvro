@@ -2,5 +2,8 @@ producer/TemperatureData$Builder.class
 producer/AvroTempProducer$2.class
 producer/TemperatureData$1.class
 producer/AvroTempProducer.class
+producer/Sample.class
 producer/TemperatureData.class
 producer/AvroTempProducer$1.class
+producer/Sample$Builder.class
+producer/Sample$1.class
