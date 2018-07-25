@@ -37,8 +37,8 @@ public class AvroTempProducer {
         }
         TOPIC = properties.getProperty("topic");
         BOOTSTRAP_SERVERS = properties.getProperty("bottstrap_servers");
-        SECONDS = Integer.valueOf(properties.getProperty("seconds"));
-        PARTITIONS = properties.getProperty("partitions");
+        SECONDS = Integer.parseInt(properties.getProperty("seconds"));
+        PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
    }
    private static  KafkaProducer<String, TemperatureData> producer;
 
