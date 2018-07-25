@@ -4,7 +4,6 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.*;
 import java.util.Properties;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +13,8 @@ import java.util.Calendar;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
+import java.io.File;
+import java.io.FileInputStream;
 
 public class AvroTempProducer {
     private final static String TOPIC = "avro-temp-data";
@@ -24,10 +24,24 @@ public class AvroTempProducer {
     private final static int SECONDS = 5;
     private final static int PARTITIONS = 0; //zero indexed
     private final static boolean generate_data = true;
+    private final static String TEST;
+    static {
+        Properties properties = new Properties();
+        try {
+            FileInputStream stream = new FileInputStream(new File("config.properties"));
+            properties.load(stream);
+        } catch (Exception e) {
+            System.out.println("Could not open File");
+        }
+        TEST = properties.getProperty("test");
+    }
     private static  KafkaProducer<String, TemperatureData> producer;
 
-    public static void main(String[] args) throws Exception {
+
+
+   public static void main(String[] args) throws Exception {
         //runProducer(5);
+        System.out.println(TEST);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
