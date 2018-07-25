@@ -19,7 +19,7 @@ public class AvroTempProducer {
     private final static String BOOTSTRAP_SERVERS = "10.10.0.154:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
-    private final static int SECONDS = 1;
+    private final static int SECONDS = 5;
     private final static int PARTITIONS = 0; //zero indexed
     private static  KafkaProducer<String, TemperatureData> producer;
 
@@ -56,18 +56,27 @@ public class AvroTempProducer {
         //final Producer<Integer, String> producer = createProducer();
         int partition = 0;
         String key = "not real shit";
-        // String data = "fake shit"O";
         String data = null;
 	while (data == null) {
 		data = getTemp();
 		Thread.sleep(500);
 	}
-        final TemperatureData temp = TemperatureData.newBuilder()
-                .setTemperature(data)
-                .setTimestamp("whenever i want")
-                .build();
+	String[] info = data.split("[\\s\\D]+");
+	//[year, month, day, hour, minute, second, millisecond, temp]
+    final TemperatureData temp = TemperatureData.newBuilder()
+            .setTimestamp(TimeRecord.newBuilder()
+                    .setYear(Integer.parseInt(info[0]))
+                    .setMonth(Integer.parseInt(info[1]))
+                    .setDay(Integer.parseInt(info[2]))
+                    .setHour(Integer.parseInt(info[3]))
+                    .setMinute(Integer.parseInt(info[4]))
+                    .setSecond(Integer.parseInt(info[5]))
+                    .setMillisecond(Integer.parseInt(info[6]))
+                    .build())
+            .setTemperature(Integer.parseInt(info[7]))
+            .build();
 
-        final ProducerRecord<String, TemperatureData> record =
+    final ProducerRecord<String, TemperatureData> record =
                 new ProducerRecord<String, TemperatureData>(TOPIC, temp);
         producer.send(record, new Callback() {
             @Override

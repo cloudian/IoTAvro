@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -4015155663227788836L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TemperatureData\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"timestamp\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"temperature\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}],\"version\":\"2\"}");
+  private static final long serialVersionUID = 8042773564973020197L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TemperatureData\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"Temperature\",\"type\":\"int\"},{\"name\":\"Timestamp\",\"type\":{\"type\":\"record\",\"name\":\"TimeRecord\",\"fields\":[{\"name\":\"Year\",\"type\":\"int\"},{\"name\":\"Month\",\"type\":\"int\"},{\"name\":\"Day\",\"type\":\"int\"},{\"name\":\"Hour\",\"type\":\"int\"},{\"name\":\"Minute\",\"type\":\"int\"},{\"name\":\"Second\",\"type\":\"int\"},{\"name\":\"Millisecond\",\"type\":\"int\"}]}}],\"version\":\"2\"}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -51,8 +51,8 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
     return DECODER.decode(b);
   }
 
-   private java.lang.String timestamp;
-   private java.lang.String temperature;
+   private int Temperature;
+   private producer.TimeRecord Timestamp;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -63,20 +63,20 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
 
   /**
    * All-args constructor.
-   * @param timestamp The new value for timestamp
-   * @param temperature The new value for temperature
+   * @param Temperature The new value for Temperature
+   * @param Timestamp The new value for Timestamp
    */
-  public TemperatureData(java.lang.String timestamp, java.lang.String temperature) {
-    this.timestamp = timestamp;
-    this.temperature = temperature;
+  public TemperatureData(java.lang.Integer Temperature, producer.TimeRecord Timestamp) {
+    this.Temperature = Temperature;
+    this.Timestamp = Timestamp;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return timestamp;
-    case 1: return temperature;
+    case 0: return Temperature;
+    case 1: return Timestamp;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -85,27 +85,27 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: timestamp = (java.lang.String)value$; break;
-    case 1: temperature = (java.lang.String)value$; break;
+    case 0: Temperature = (java.lang.Integer)value$; break;
+    case 1: Timestamp = (producer.TimeRecord)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
 
   /**
-   * Gets the value of the 'timestamp' field.
-   * @return The value of the 'timestamp' field.
+   * Gets the value of the 'Temperature' field.
+   * @return The value of the 'Temperature' field.
    */
-  public java.lang.String getTimestamp() {
-    return timestamp;
+  public java.lang.Integer getTemperature() {
+    return Temperature;
   }
 
 
   /**
-   * Gets the value of the 'temperature' field.
-   * @return The value of the 'temperature' field.
+   * Gets the value of the 'Timestamp' field.
+   * @return The value of the 'Timestamp' field.
    */
-  public java.lang.String getTemperature() {
-    return temperature;
+  public producer.TimeRecord getTimestamp() {
+    return Timestamp;
   }
 
 
@@ -141,8 +141,9 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<TemperatureData>
     implements org.apache.avro.data.RecordBuilder<TemperatureData> {
 
-    private java.lang.String timestamp;
-    private java.lang.String temperature;
+    private int Temperature;
+    private producer.TimeRecord Timestamp;
+    private producer.TimeRecord.Builder TimestampBuilder;
 
     /** Creates a new Builder */
     private Builder() {
@@ -155,13 +156,16 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
      */
     private Builder(producer.TemperatureData.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[0].schema(), other.timestamp);
+      if (isValidValue(fields()[0], other.Temperature)) {
+        this.Temperature = data().deepCopy(fields()[0].schema(), other.Temperature);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.temperature)) {
-        this.temperature = data().deepCopy(fields()[1].schema(), other.temperature);
+      if (isValidValue(fields()[1], other.Timestamp)) {
+        this.Timestamp = data().deepCopy(fields()[1].schema(), other.Timestamp);
         fieldSetFlags()[1] = true;
+      }
+      if (other.hasTimestampBuilder()) {
+        this.TimestampBuilder = producer.TimeRecord.newBuilder(other.getTimestampBuilder());
       }
     }
 
@@ -171,90 +175,125 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
      */
     private Builder(producer.TemperatureData other) {
             super(SCHEMA$);
-      if (isValidValue(fields()[0], other.timestamp)) {
-        this.timestamp = data().deepCopy(fields()[0].schema(), other.timestamp);
+      if (isValidValue(fields()[0], other.Temperature)) {
+        this.Temperature = data().deepCopy(fields()[0].schema(), other.Temperature);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.temperature)) {
-        this.temperature = data().deepCopy(fields()[1].schema(), other.temperature);
+      if (isValidValue(fields()[1], other.Timestamp)) {
+        this.Timestamp = data().deepCopy(fields()[1].schema(), other.Timestamp);
         fieldSetFlags()[1] = true;
       }
+      this.TimestampBuilder = null;
     }
 
     /**
-      * Gets the value of the 'timestamp' field.
+      * Gets the value of the 'Temperature' field.
       * @return The value.
       */
-    public java.lang.String getTimestamp() {
-      return timestamp;
+    public java.lang.Integer getTemperature() {
+      return Temperature;
     }
 
     /**
-      * Sets the value of the 'timestamp' field.
-      * @param value The value of 'timestamp'.
+      * Sets the value of the 'Temperature' field.
+      * @param value The value of 'Temperature'.
       * @return This builder.
       */
-    public producer.TemperatureData.Builder setTimestamp(java.lang.String value) {
+    public producer.TemperatureData.Builder setTemperature(int value) {
       validate(fields()[0], value);
-      this.timestamp = value;
+      this.Temperature = value;
       fieldSetFlags()[0] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'timestamp' field has been set.
-      * @return True if the 'timestamp' field has been set, false otherwise.
+      * Checks whether the 'Temperature' field has been set.
+      * @return True if the 'Temperature' field has been set, false otherwise.
       */
-    public boolean hasTimestamp() {
+    public boolean hasTemperature() {
       return fieldSetFlags()[0];
     }
 
 
     /**
-      * Clears the value of the 'timestamp' field.
+      * Clears the value of the 'Temperature' field.
       * @return This builder.
       */
-    public producer.TemperatureData.Builder clearTimestamp() {
-      timestamp = null;
+    public producer.TemperatureData.Builder clearTemperature() {
       fieldSetFlags()[0] = false;
       return this;
     }
 
     /**
-      * Gets the value of the 'temperature' field.
+      * Gets the value of the 'Timestamp' field.
       * @return The value.
       */
-    public java.lang.String getTemperature() {
-      return temperature;
+    public producer.TimeRecord getTimestamp() {
+      return Timestamp;
     }
 
     /**
-      * Sets the value of the 'temperature' field.
-      * @param value The value of 'temperature'.
+      * Sets the value of the 'Timestamp' field.
+      * @param value The value of 'Timestamp'.
       * @return This builder.
       */
-    public producer.TemperatureData.Builder setTemperature(java.lang.String value) {
+    public producer.TemperatureData.Builder setTimestamp(producer.TimeRecord value) {
       validate(fields()[1], value);
-      this.temperature = value;
+      this.TimestampBuilder = null;
+      this.Timestamp = value;
       fieldSetFlags()[1] = true;
       return this;
     }
 
     /**
-      * Checks whether the 'temperature' field has been set.
-      * @return True if the 'temperature' field has been set, false otherwise.
+      * Checks whether the 'Timestamp' field has been set.
+      * @return True if the 'Timestamp' field has been set, false otherwise.
       */
-    public boolean hasTemperature() {
+    public boolean hasTimestamp() {
       return fieldSetFlags()[1];
     }
 
+    /**
+     * Gets the Builder instance for the 'Timestamp' field and creates one if it doesn't exist yet.
+     * @return This builder.
+     */
+    public producer.TimeRecord.Builder getTimestampBuilder() {
+      if (TimestampBuilder == null) {
+        if (hasTimestamp()) {
+          setTimestampBuilder(producer.TimeRecord.newBuilder(Timestamp));
+        } else {
+          setTimestampBuilder(producer.TimeRecord.newBuilder());
+        }
+      }
+      return TimestampBuilder;
+    }
 
     /**
-      * Clears the value of the 'temperature' field.
+     * Sets the Builder instance for the 'Timestamp' field
+     * @param value The builder instance that must be set.
+     * @return This builder.
+     */
+    public producer.TemperatureData.Builder setTimestampBuilder(producer.TimeRecord.Builder value) {
+      clearTimestamp();
+      TimestampBuilder = value;
+      return this;
+    }
+
+    /**
+     * Checks whether the 'Timestamp' field has an active Builder instance
+     * @return True if the 'Timestamp' field has an active Builder instance
+     */
+    public boolean hasTimestampBuilder() {
+      return TimestampBuilder != null;
+    }
+
+    /**
+      * Clears the value of the 'Timestamp' field.
       * @return This builder.
       */
-    public producer.TemperatureData.Builder clearTemperature() {
-      temperature = null;
+    public producer.TemperatureData.Builder clearTimestamp() {
+      Timestamp = null;
+      TimestampBuilder = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -264,8 +303,12 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
     public TemperatureData build() {
       try {
         TemperatureData record = new TemperatureData();
-        record.timestamp = fieldSetFlags()[0] ? this.timestamp : (java.lang.String) defaultValue(fields()[0]);
-        record.temperature = fieldSetFlags()[1] ? this.temperature : (java.lang.String) defaultValue(fields()[1]);
+        record.Temperature = fieldSetFlags()[0] ? this.Temperature : (java.lang.Integer) defaultValue(fields()[0]);
+        if (TimestampBuilder != null) {
+          record.Timestamp = this.TimestampBuilder.build();
+        } else {
+          record.Timestamp = fieldSetFlags()[1] ? this.Timestamp : (producer.TimeRecord) defaultValue(fields()[1]);
+        }
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);

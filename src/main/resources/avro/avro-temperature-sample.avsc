@@ -4,8 +4,19 @@
     "name": "TemperatureData",
     "version": "2",
     "fields": [
-        {"name": "timestamp", "type": "string"},
-        {"name": "temperature", "type": "string"}
+        {"name": "Temperature", "type": "int"},
+        {"name": "Timestamp", "type":
+            {"type": "record",
+             "name": "TimeRecord",
+             "fields": [
+                {"name": "Year", "type": "int"},
+                {"name": "Month", "type": "int"},
+                {"name": "Day", "type": "int"},
+                {"name": "Hour", "type": "int"},
+                {"name": "Minute", "type": "int"},
+                {"name": "Second", "type": "int"},
+                {"name": "Millisecond", "type": "int"}
+             ]}
+        }
     ]
 }
-
