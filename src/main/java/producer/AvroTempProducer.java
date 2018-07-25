@@ -47,6 +47,9 @@ public class AvroTempProducer {
    public static void main(String[] args) throws Exception {
         //runProducer(5);
         System.out.println(SECONDS);
+        System.out.println(PARTITIONS);
+        System.out.prtinln(BOOTSTRAP_SERVERS);
+        System.out.println(TOPIC);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
