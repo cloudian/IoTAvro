@@ -36,7 +36,7 @@ public class AvroTempProducer {
             System.out.println("Could not open File");
         }
         TOPIC = properties.getProperty("topic");
-        BOOTSTRAP_SERVERS = properties.getProperty("bottstrap_servers");
+        BOOTSTRAP_SERVERS = properties.getProperty("bootstrap_servers");
         SECONDS = Integer.parseInt(properties.getProperty("seconds"));
         PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
    }
@@ -46,9 +46,11 @@ public class AvroTempProducer {
 
    public static void main(String[] args) throws Exception {
         //runProducer(5);
+	//The following four lines can be deleted
+	//Currently exist for debugging purposes
         System.out.println(SECONDS);
         System.out.println(PARTITIONS);
-        System.out.prtinln(BOOTSTRAP_SERVERS);
+        System.out.println(BOOTSTRAP_SERVERS);
         System.out.println(TOPIC);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
