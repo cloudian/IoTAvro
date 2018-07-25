@@ -17,14 +17,16 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class AvroTempProducer {
-    private final static String TOPIC = "avro-temp-data";
-    private final static String BOOTSTRAP_SERVERS = "10.10.0.154:9092";
+    private final static String TOPIC; //  = "avro-temp-data";
+    private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
-    private final static int SECONDS = 5;
-    private final static int PARTITIONS = 0; //zero indexed
+    private final static int SECONDS; // = 5;
+    private final static int PARTITIONS; // = 0; //zero indexed
+    
+    //Possibly move generate data to class initializer. VALUE IS SET IN
+    //config.properties file to true
     private final static boolean generate_data = true;
-    private final static String TEST;
     static {
         Properties properties = new Properties();
         try {
@@ -34,14 +36,18 @@ public class AvroTempProducer {
             System.out.println("Could not open File");
         }
         TEST = properties.getProperty("test");
-    }
-    private static  KafkaProducer<String, TemperatureData> producer;
+        TOPIC = properties.getProperty("topic");
+        BOOTSTRAP_SERVERS = properties.getProperty("bottstrap_servers");
+        SECONDS = Integer.valueOf(properties.getProperty("seconds"));
+        PARTITIONS = properties.getProperty("partitions");
+   }
+   private static  KafkaProducer<String, TemperatureData> producer;
 
 
 
    public static void main(String[] args) throws Exception {
         //runProducer(5);
-        System.out.println(TEST);
+        System.out.println(SECONDS);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
