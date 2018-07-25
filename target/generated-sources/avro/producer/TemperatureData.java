@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8042773564973020197L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TemperatureData\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"Temperature\",\"type\":\"int\"},{\"name\":\"Timestamp\",\"type\":{\"type\":\"record\",\"name\":\"TimeRecord\",\"fields\":[{\"name\":\"Year\",\"type\":\"int\"},{\"name\":\"Month\",\"type\":\"int\"},{\"name\":\"Day\",\"type\":\"int\"},{\"name\":\"Hour\",\"type\":\"int\"},{\"name\":\"Minute\",\"type\":\"int\"},{\"name\":\"Second\",\"type\":\"int\"},{\"name\":\"Millisecond\",\"type\":\"int\"}]}}],\"version\":\"2\"}");
+  private static final long serialVersionUID = -5631004613498165793L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TemperatureData\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"Temperature\",\"type\":\"int\"},{\"name\":\"Humidity\",\"type\":\"double\"},{\"name\":\"Timestamp\",\"type\":{\"type\":\"record\",\"name\":\"TimeRecord\",\"fields\":[{\"name\":\"Year\",\"type\":\"int\"},{\"name\":\"Month\",\"type\":\"int\"},{\"name\":\"Day\",\"type\":\"int\"},{\"name\":\"Hour\",\"type\":\"int\"},{\"name\":\"Minute\",\"type\":\"int\"},{\"name\":\"Second\",\"type\":\"int\"}]}}],\"version\":\"3\"}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -52,6 +52,7 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   }
 
    private int Temperature;
+   private double Humidity;
    private producer.TimeRecord Timestamp;
 
   /**
@@ -64,10 +65,12 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   /**
    * All-args constructor.
    * @param Temperature The new value for Temperature
+   * @param Humidity The new value for Humidity
    * @param Timestamp The new value for Timestamp
    */
-  public TemperatureData(java.lang.Integer Temperature, producer.TimeRecord Timestamp) {
+  public TemperatureData(java.lang.Integer Temperature, java.lang.Double Humidity, producer.TimeRecord Timestamp) {
     this.Temperature = Temperature;
+    this.Humidity = Humidity;
     this.Timestamp = Timestamp;
   }
 
@@ -76,7 +79,8 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   public java.lang.Object get(int field$) {
     switch (field$) {
     case 0: return Temperature;
-    case 1: return Timestamp;
+    case 1: return Humidity;
+    case 2: return Timestamp;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -86,7 +90,8 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
     case 0: Temperature = (java.lang.Integer)value$; break;
-    case 1: Timestamp = (producer.TimeRecord)value$; break;
+    case 1: Humidity = (java.lang.Double)value$; break;
+    case 2: Timestamp = (producer.TimeRecord)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -97,6 +102,15 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
    */
   public java.lang.Integer getTemperature() {
     return Temperature;
+  }
+
+
+  /**
+   * Gets the value of the 'Humidity' field.
+   * @return The value of the 'Humidity' field.
+   */
+  public java.lang.Double getHumidity() {
+    return Humidity;
   }
 
 
@@ -142,6 +156,7 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
     implements org.apache.avro.data.RecordBuilder<TemperatureData> {
 
     private int Temperature;
+    private double Humidity;
     private producer.TimeRecord Timestamp;
     private producer.TimeRecord.Builder TimestampBuilder;
 
@@ -160,9 +175,13 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
         this.Temperature = data().deepCopy(fields()[0].schema(), other.Temperature);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.Timestamp)) {
-        this.Timestamp = data().deepCopy(fields()[1].schema(), other.Timestamp);
+      if (isValidValue(fields()[1], other.Humidity)) {
+        this.Humidity = data().deepCopy(fields()[1].schema(), other.Humidity);
         fieldSetFlags()[1] = true;
+      }
+      if (isValidValue(fields()[2], other.Timestamp)) {
+        this.Timestamp = data().deepCopy(fields()[2].schema(), other.Timestamp);
+        fieldSetFlags()[2] = true;
       }
       if (other.hasTimestampBuilder()) {
         this.TimestampBuilder = producer.TimeRecord.newBuilder(other.getTimestampBuilder());
@@ -179,9 +198,13 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
         this.Temperature = data().deepCopy(fields()[0].schema(), other.Temperature);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.Timestamp)) {
-        this.Timestamp = data().deepCopy(fields()[1].schema(), other.Timestamp);
+      if (isValidValue(fields()[1], other.Humidity)) {
+        this.Humidity = data().deepCopy(fields()[1].schema(), other.Humidity);
         fieldSetFlags()[1] = true;
+      }
+      if (isValidValue(fields()[2], other.Timestamp)) {
+        this.Timestamp = data().deepCopy(fields()[2].schema(), other.Timestamp);
+        fieldSetFlags()[2] = true;
       }
       this.TimestampBuilder = null;
     }
@@ -225,6 +248,44 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
     }
 
     /**
+      * Gets the value of the 'Humidity' field.
+      * @return The value.
+      */
+    public java.lang.Double getHumidity() {
+      return Humidity;
+    }
+
+    /**
+      * Sets the value of the 'Humidity' field.
+      * @param value The value of 'Humidity'.
+      * @return This builder.
+      */
+    public producer.TemperatureData.Builder setHumidity(double value) {
+      validate(fields()[1], value);
+      this.Humidity = value;
+      fieldSetFlags()[1] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'Humidity' field has been set.
+      * @return True if the 'Humidity' field has been set, false otherwise.
+      */
+    public boolean hasHumidity() {
+      return fieldSetFlags()[1];
+    }
+
+
+    /**
+      * Clears the value of the 'Humidity' field.
+      * @return This builder.
+      */
+    public producer.TemperatureData.Builder clearHumidity() {
+      fieldSetFlags()[1] = false;
+      return this;
+    }
+
+    /**
       * Gets the value of the 'Timestamp' field.
       * @return The value.
       */
@@ -238,10 +299,10 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
       * @return This builder.
       */
     public producer.TemperatureData.Builder setTimestamp(producer.TimeRecord value) {
-      validate(fields()[1], value);
+      validate(fields()[2], value);
       this.TimestampBuilder = null;
       this.Timestamp = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -250,7 +311,7 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
       * @return True if the 'Timestamp' field has been set, false otherwise.
       */
     public boolean hasTimestamp() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[2];
     }
 
     /**
@@ -294,7 +355,7 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
     public producer.TemperatureData.Builder clearTimestamp() {
       Timestamp = null;
       TimestampBuilder = null;
-      fieldSetFlags()[1] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -304,10 +365,11 @@ public class TemperatureData extends org.apache.avro.specific.SpecificRecordBase
       try {
         TemperatureData record = new TemperatureData();
         record.Temperature = fieldSetFlags()[0] ? this.Temperature : (java.lang.Integer) defaultValue(fields()[0]);
+        record.Humidity = fieldSetFlags()[1] ? this.Humidity : (java.lang.Double) defaultValue(fields()[1]);
         if (TimestampBuilder != null) {
           record.Timestamp = this.TimestampBuilder.build();
         } else {
-          record.Timestamp = fieldSetFlags()[1] ? this.Timestamp : (producer.TimeRecord) defaultValue(fields()[1]);
+          record.Timestamp = fieldSetFlags()[2] ? this.Timestamp : (producer.TimeRecord) defaultValue(fields()[2]);
         }
         return record;
       } catch (java.lang.Exception e) {

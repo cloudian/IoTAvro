@@ -9,6 +9,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.lang.Runnable;
+import java.lang.Math;
+import java.util.Calendar;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,6 +23,7 @@ public class AvroTempProducer {
     private final static String stringSerializer = StringSerializer.class.getName();
     private final static int SECONDS = 5;
     private final static int PARTITIONS = 0; //zero indexed
+    private final static boolean generate_data = true;
     private static  KafkaProducer<String, TemperatureData> producer;
 
     public static void main(String[] args) throws Exception {
@@ -57,27 +60,50 @@ public class AvroTempProducer {
         int partition = 0;
         String key = "not real shit";
         String data = null;
-	while (data == null) {
-		data = getTemp();
-		Thread.sleep(500);
-	}
-	String[] info = data.split("[\\s\\D]+");
-	//[year, month, day, hour, minute, second, millisecond, temp]
-    final TemperatureData temp = TemperatureData.newBuilder()
-            .setTimestamp(TimeRecord.newBuilder()
-                    .setYear(Integer.parseInt(info[0]))
-                    .setMonth(Integer.parseInt(info[1]))
-                    .setDay(Integer.parseInt(info[2]))
-                    .setHour(Integer.parseInt(info[3]))
-                    .setMinute(Integer.parseInt(info[4]))
-                    .setSecond(Integer.parseInt(info[5]))
-                    .setMillisecond(Integer.parseInt(info[6]))
-                    .build())
-            .setTemperature(Integer.parseInt(info[7]))
-            .build();
+        TemperatureData temperature;
+
+    if (generate_data) { 
+        Calendar cal = Calendar.getInstance();
+        int d = cal.get(Calendar.DAY_OF_YEAR);
+        int h = cal.get(Calendar.HOUR_OF_DAY);
+        int temp = (int) (11*Math.cos((2*Math.PI/365)*(d-244)) +
+                13*Math.cos((2*Math.PI/24)*(h-15)) + 45);
+        int humidity = (int) (15*Math.cos((2*Math.PI/24)*(h-4)) + 60);
+        temperature = TemperatureData.newBuilder()
+                .setTimestamp(TimeRecord.newBuilder()
+                        .setYear(cal.get(Calendar.YEAR))
+                        .setMonth(cal.get(Calendar.MONTH))
+                        .setDay(cal.get(Calendar.DAY_OF_MONTH))
+                        .setHour(cal.get(Calendar.HOUR_OF_DAY))
+                        .setMinute(cal.get(Calendar.MINUTE))
+                        .setSecond(cal.get(Calendar.SECOND))
+                        .build())
+                .setTemperature(temp)
+                .setHumidity(humidity)
+                .build();
+    } else {
+    	while (data == null) {
+    		data = getTemp();
+    		Thread.sleep(500);
+    	}
+    	String[] info = data.split("[\\s\\D]+");
+    	//[year, month, day, hour, minute, second, millisecond, temp]
+        temperature = TemperatureData.newBuilder()
+                .setTimestamp(TimeRecord.newBuilder()
+                        .setYear(Integer.parseInt(info[0]))
+                        .setMonth(Integer.parseInt(info[1]))
+                        .setDay(Integer.parseInt(info[2]))
+                        .setHour(Integer.parseInt(info[3]))
+                        .setMinute(Integer.parseInt(info[4]))
+                        .setSecond(Integer.parseInt(info[5]))
+                        .build())
+                .setTemperature(Integer.parseInt(info[7]))
+                .setHumidity(Integer.parseInt(info[8]))
+                .build();
+    }
 
     final ProducerRecord<String, TemperatureData> record =
-                new ProducerRecord<String, TemperatureData>(TOPIC, temp);
+                new ProducerRecord<String, TemperatureData>(TOPIC, temperature);
         producer.send(record, new Callback() {
             @Override
             public void onCompletion(RecordMetadata metadata, Exception e) {

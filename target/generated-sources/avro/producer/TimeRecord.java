@@ -13,8 +13,8 @@ import org.apache.avro.message.SchemaStore;
 @SuppressWarnings("all")
 @org.apache.avro.specific.AvroGenerated
 public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -705521025190303395L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TimeRecord\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"Year\",\"type\":\"int\"},{\"name\":\"Month\",\"type\":\"int\"},{\"name\":\"Day\",\"type\":\"int\"},{\"name\":\"Hour\",\"type\":\"int\"},{\"name\":\"Minute\",\"type\":\"int\"},{\"name\":\"Second\",\"type\":\"int\"},{\"name\":\"Millisecond\",\"type\":\"int\"}]}");
+  private static final long serialVersionUID = 563989650217167047L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"TimeRecord\",\"namespace\":\"producer\",\"fields\":[{\"name\":\"Year\",\"type\":\"int\"},{\"name\":\"Month\",\"type\":\"int\"},{\"name\":\"Day\",\"type\":\"int\"},{\"name\":\"Hour\",\"type\":\"int\"},{\"name\":\"Minute\",\"type\":\"int\"},{\"name\":\"Second\",\"type\":\"int\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -57,7 +57,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
    private int Hour;
    private int Minute;
    private int Second;
-   private int Millisecond;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -74,16 +73,14 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
    * @param Hour The new value for Hour
    * @param Minute The new value for Minute
    * @param Second The new value for Second
-   * @param Millisecond The new value for Millisecond
    */
-  public TimeRecord(java.lang.Integer Year, java.lang.Integer Month, java.lang.Integer Day, java.lang.Integer Hour, java.lang.Integer Minute, java.lang.Integer Second, java.lang.Integer Millisecond) {
+  public TimeRecord(java.lang.Integer Year, java.lang.Integer Month, java.lang.Integer Day, java.lang.Integer Hour, java.lang.Integer Minute, java.lang.Integer Second) {
     this.Year = Year;
     this.Month = Month;
     this.Day = Day;
     this.Hour = Hour;
     this.Minute = Minute;
     this.Second = Second;
-    this.Millisecond = Millisecond;
   }
 
   public org.apache.avro.Schema getSchema() { return SCHEMA$; }
@@ -96,7 +93,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
     case 3: return Hour;
     case 4: return Minute;
     case 5: return Second;
-    case 6: return Millisecond;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -111,7 +107,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
     case 3: Hour = (java.lang.Integer)value$; break;
     case 4: Minute = (java.lang.Integer)value$; break;
     case 5: Second = (java.lang.Integer)value$; break;
-    case 6: Millisecond = (java.lang.Integer)value$; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -171,15 +166,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
 
 
   /**
-   * Gets the value of the 'Millisecond' field.
-   * @return The value of the 'Millisecond' field.
-   */
-  public java.lang.Integer getMillisecond() {
-    return Millisecond;
-  }
-
-
-  /**
    * Creates a new TimeRecord RecordBuilder.
    * @return A new TimeRecord RecordBuilder
    */
@@ -217,7 +203,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
     private int Hour;
     private int Minute;
     private int Second;
-    private int Millisecond;
 
     /** Creates a new Builder */
     private Builder() {
@@ -254,10 +239,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
         this.Second = data().deepCopy(fields()[5].schema(), other.Second);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.Millisecond)) {
-        this.Millisecond = data().deepCopy(fields()[6].schema(), other.Millisecond);
-        fieldSetFlags()[6] = true;
-      }
     }
 
     /**
@@ -289,10 +270,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
       if (isValidValue(fields()[5], other.Second)) {
         this.Second = data().deepCopy(fields()[5].schema(), other.Second);
         fieldSetFlags()[5] = true;
-      }
-      if (isValidValue(fields()[6], other.Millisecond)) {
-        this.Millisecond = data().deepCopy(fields()[6].schema(), other.Millisecond);
-        fieldSetFlags()[6] = true;
       }
     }
 
@@ -524,44 +501,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
       return this;
     }
 
-    /**
-      * Gets the value of the 'Millisecond' field.
-      * @return The value.
-      */
-    public java.lang.Integer getMillisecond() {
-      return Millisecond;
-    }
-
-    /**
-      * Sets the value of the 'Millisecond' field.
-      * @param value The value of 'Millisecond'.
-      * @return This builder.
-      */
-    public producer.TimeRecord.Builder setMillisecond(int value) {
-      validate(fields()[6], value);
-      this.Millisecond = value;
-      fieldSetFlags()[6] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'Millisecond' field has been set.
-      * @return True if the 'Millisecond' field has been set, false otherwise.
-      */
-    public boolean hasMillisecond() {
-      return fieldSetFlags()[6];
-    }
-
-
-    /**
-      * Clears the value of the 'Millisecond' field.
-      * @return This builder.
-      */
-    public producer.TimeRecord.Builder clearMillisecond() {
-      fieldSetFlags()[6] = false;
-      return this;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public TimeRecord build() {
@@ -573,7 +512,6 @@ public class TimeRecord extends org.apache.avro.specific.SpecificRecordBase impl
         record.Hour = fieldSetFlags()[3] ? this.Hour : (java.lang.Integer) defaultValue(fields()[3]);
         record.Minute = fieldSetFlags()[4] ? this.Minute : (java.lang.Integer) defaultValue(fields()[4]);
         record.Second = fieldSetFlags()[5] ? this.Second : (java.lang.Integer) defaultValue(fields()[5]);
-        record.Millisecond = fieldSetFlags()[6] ? this.Millisecond : (java.lang.Integer) defaultValue(fields()[6]);
         return record;
       } catch (java.lang.Exception e) {
         throw new org.apache.avro.AvroRuntimeException(e);
