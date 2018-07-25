@@ -35,7 +35,6 @@ public class AvroTempProducer {
         } catch (Exception e) {
             System.out.println("Could not open File");
         }
-        TEST = properties.getProperty("test");
         TOPIC = properties.getProperty("topic");
         BOOTSTRAP_SERVERS = properties.getProperty("bottstrap_servers");
         SECONDS = Integer.valueOf(properties.getProperty("seconds"));
