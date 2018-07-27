@@ -18,12 +18,14 @@ import java.io.InputStreamReader;
 
 public class AvroTempProducer {
     private final static String TOPIC = "avro-temp-data";
-    private final static String BOOTSTRAP_SERVERS = "10.10.0.154:9092";
+    private final static String CONFLUENT_IP = "10.10.0.154";
+    private final static String KAFKA_PORTS = "9092";
+    private final static String SCHEMA_REGISTRY_PORTS = "8081";
+    private final static boolean generate_data = true;
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
     private final static int SECONDS = 5;
     private final static int PARTITIONS = 0; //zero indexed
-    private final static boolean generate_data = true;
     private static  KafkaProducer<String, TemperatureData> producer;
 
     public static void main(String[] args) throws Exception {
@@ -45,10 +47,11 @@ public class AvroTempProducer {
     }
     private static KafkaProducer< String, TemperatureData>createProducer() {
         Properties props = new Properties();
-        props.setProperty("bootstrap.servers", BOOTSTRAP_SERVERS);
+        props.setProperty("bootstrap.servers", CONFLUENT_IP + ":" + KAFKA_PORTS);
         props.setProperty("key.serializer", stringSerializer);
         props.setProperty("value.serializer", avroSerializer);
-        props.setProperty("schema.registry.url", "http://10.10.0.154:8081");
+        props.setProperty("schema.registry.url", "http://" + CONFLUENT_IP +
+                ":" + SCHEMA_REGISTRY_PORTS);
         //props.put("key.serializer", stringSerializer);
         //props.put("value.serializer", jsonSerializer);
         KafkaProducer<String, TemperatureData> producer = new KafkaProducer<>(props);

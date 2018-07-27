@@ -4,26 +4,6 @@
     <list default="true" id="ade0a981-585f-4cc9-8424-65f0662e4bb0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/avro/avro-temperature-sample.avsc" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/avro/avro-temperature-sample.avsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/avro/avro-temperature-sample.avsc" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/avro/avro-temperature-sample.avsc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/AvroTempProducer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/AvroTempProducer$2.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/AvroTempProducer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/Sample$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/Sample$Builder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/Sample.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TemperatureData$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TemperatureData$Builder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TemperatureData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TimeRecord$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TimeRecord$Builder.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/producer/TimeRecord.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/avro/producer/TemperatureData.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/avro/producer/TemperatureData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/generated-sources/avro/producer/TimeRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/target/generated-sources/avro/producer/TimeRecord.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/kafka-avro-v1-1.0-SNAPSHOT.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,25 +15,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="AvroTempProducer.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AvroTempProducer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+            <state relative-caret-position="229">
+              <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="avro-temperature-sample.avsc" pinned="false" current-in-tab="false">
+      <file leaf-file-name="avro-temperature-sample.avsc" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/resources/avro/avro-temperature-sample.avsc">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+            <state relative-caret-position="300">
+              <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>BOOTSTRAP_SERVERS</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -255,7 +243,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" visible="true" weight="0.1595136" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3298969" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.1636598" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.14948453" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32860824" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -288,6 +276,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1080">
           <caret line="72" column="28" selection-start-line="72" selection-start-column="28" selection-end-line="72" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -326,17 +317,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/avro/avro-temperature-sample.avsc">
+    <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="19" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        <state relative-caret-position="229">
+          <caret line="31" column="25" lean-forward="true" selection-start-line="31" selection-start-column="25" selection-end-line="31" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/avro/avro-temperature-sample.avsc">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        <state relative-caret-position="300">
+          <caret line="20" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
         </state>
       </provider>
     </entry>
