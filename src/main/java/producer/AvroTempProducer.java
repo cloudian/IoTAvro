@@ -29,7 +29,7 @@ public class AvroTempProducer {
     private static int PARTITIONS = 0; //zero indexed
     private static  KafkaProducer<String, TemperatureData> producer;
 
-    //Possibly move generate data to class initializer. VALUE IS SET IN
+    //Possibly move generate data to class initiaizer. VALUE IS SET IN
     //config.properties file to true
 
 
@@ -42,7 +42,9 @@ public class AvroTempProducer {
             System.out.println("Could not open File");
         }
         TOPIC = properties.getProperty("topic");
-        CONFLUENT_IP = properties.getProperty("bootstrap_servers");
+        CONFLUENT_IP = properties.getProperty("confluent_ip");
+        KAFKA_PORTS = properties.getProperty("kafka_ports");
+        SCHEMA_REGISTRY_PORTS = properties.getProperty("schema_registry_ports");
         SECONDS = Integer.parseInt(properties.getProperty("seconds"));
         PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
    }
