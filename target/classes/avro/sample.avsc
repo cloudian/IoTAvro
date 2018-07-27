@@ -1,9 +1,0 @@
-{
-    "type": "record",
-    "namespace": "producer",
-    "name": "Sample",
-    "version": "1",
-    "fields": [
-        {"name": "timestamp", "type": "int"}
-    ]
-}

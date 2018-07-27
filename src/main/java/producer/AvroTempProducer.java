@@ -4,7 +4,6 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.*;
 import java.util.Properties;
-
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,9 +13,11 @@ import java.util.Calendar;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
+import java.io.File;
+import java.io.FileInputStream;
 
 public class AvroTempProducer {
+<<<<<<< HEAD
     private final static String TOPIC = "avro-temp-data";
     private final static String CONFLUENT_IP = "10.10.0.154";
     private final static String KAFKA_PORTS = "9092";
@@ -27,9 +28,43 @@ public class AvroTempProducer {
     private final static int SECONDS = 5;
     private final static int PARTITIONS = 0; //zero indexed
     private static  KafkaProducer<String, TemperatureData> producer;
+=======
+    private final static String TOPIC; //  = "avro-temp-data";
+    private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
+    private final static String avroSerializer = KafkaAvroSerializer.class.getName();
+    private final static String stringSerializer = StringSerializer.class.getName();
+    private final static int SECONDS; // = 5;
+    private final static int PARTITIONS; // = 0; //zero indexed
+    
+    //Possibly move generate data to class initializer. VALUE IS SET IN
+    //config.properties file to true
+    private final static boolean generate_data = true;
+    static {
+        Properties properties = new Properties();
+        try {
+            FileInputStream stream = new FileInputStream(new File("config.properties"));
+            properties.load(stream);
+        } catch (Exception e) {
+            System.out.println("Could not open File");
+        }
+        TOPIC = properties.getProperty("topic");
+        BOOTSTRAP_SERVERS = properties.getProperty("bootstrap_servers");
+        SECONDS = Integer.parseInt(properties.getProperty("seconds"));
+        PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
+   }
+   private static  KafkaProducer<String, TemperatureData> producer;
 
-    public static void main(String[] args) throws Exception {
+
+>>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
+
+   public static void main(String[] args) throws Exception {
         //runProducer(5);
+	//The following four lines can be deleted
+	//Currently exist for debugging purposes
+        System.out.println(SECONDS);
+        System.out.println(PARTITIONS);
+        System.out.println(BOOTSTRAP_SERVERS);
+        System.out.println(TOPIC);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
