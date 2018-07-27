@@ -50,10 +50,12 @@ public class AvroTempProducer {
    }
 
 
+
    public static void main(String[] args) throws Exception {
         //runProducer(5);
 	//The following four lines can be deleted
 	//Currently exist for debugging purposes
+        org.apache.log4j.BasicConfigurator.configure();
         System.out.println(SECONDS);
         System.out.println(PARTITIONS);
         System.out.println(CONFLUENT_IP);
