@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 
 public class AvroTempProducer {
 <<<<<<< HEAD
+<<<<<<< HEAD
     private final static String TOPIC = "avro-temp-data";
     private final static String CONFLUENT_IP = "10.10.0.154";
     private final static String KAFKA_PORTS = "9092";
@@ -33,6 +34,12 @@ public class AvroTempProducer {
     private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
     private final static String avroSerializer = KafkaAvroSerializer.class.getName();
     private final static String stringSerializer = StringSerializer.class.getName();
+=======
+    private final static String TOPIC; //  = "avro-temp-data";
+    private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
+    private final static String avroSerializer = KafkaAvroSerializer.class.getName();
+    private final static String stringSerializer = StringSerializer.class.getName();
+>>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
     private final static int SECONDS; // = 5;
     private final static int PARTITIONS; // = 0; //zero indexed
     
@@ -55,6 +62,9 @@ public class AvroTempProducer {
    private static  KafkaProducer<String, TemperatureData> producer;
 
 
+<<<<<<< HEAD
+>>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
+=======
 >>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
 
    public static void main(String[] args) throws Exception {
