@@ -17,35 +17,22 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class AvroTempProducer {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private final static String TOPIC = "avro-temp-data";
-    private final static String CONFLUENT_IP = "10.10.0.154";
-    private final static String KAFKA_PORTS = "9092";
-    private final static String SCHEMA_REGISTRY_PORTS = "8081";
-    private final static boolean generate_data = true;
-    private final static String avroSerializer = KafkaAvroSerializer.class.getName();
-    private final static String stringSerializer = StringSerializer.class.getName();
-    private final static int SECONDS = 5;
-    private final static int PARTITIONS = 0; //zero indexed
+
+    private static String TOPIC;
+    private static String CONFLUENT_IP;
+    private static String KAFKA_PORTS;
+    private static String SCHEMA_REGISTRY_PORTS;
+    private static boolean generate_data = true;
+    private static String avroSerializer = KafkaAvroSerializer.class.getName();
+    private static String stringSerializer = StringSerializer.class.getName();
+    private static int SECONDS = 5;
+    private static int PARTITIONS = 0; //zero indexed
     private static  KafkaProducer<String, TemperatureData> producer;
-=======
-    private final static String TOPIC; //  = "avro-temp-data";
-    private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
-    private final static String avroSerializer = KafkaAvroSerializer.class.getName();
-    private final static String stringSerializer = StringSerializer.class.getName();
-=======
-    private final static String TOPIC; //  = "avro-temp-data";
-    private final static String BOOTSTRAP_SERVERS; // = "10.10.0.154:9092";
-    private final static String avroSerializer = KafkaAvroSerializer.class.getName();
-    private final static String stringSerializer = StringSerializer.class.getName();
->>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
-    private final static int SECONDS; // = 5;
-    private final static int PARTITIONS; // = 0; //zero indexed
-    
+
     //Possibly move generate data to class initializer. VALUE IS SET IN
     //config.properties file to true
-    private final static boolean generate_data = true;
+
+
     static {
         Properties properties = new Properties();
         try {
@@ -55,17 +42,11 @@ public class AvroTempProducer {
             System.out.println("Could not open File");
         }
         TOPIC = properties.getProperty("topic");
-        BOOTSTRAP_SERVERS = properties.getProperty("bootstrap_servers");
+        CONFLUENT_IP = properties.getProperty("bootstrap_servers");
         SECONDS = Integer.parseInt(properties.getProperty("seconds"));
         PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
    }
-   private static  KafkaProducer<String, TemperatureData> producer;
 
-
-<<<<<<< HEAD
->>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
-=======
->>>>>>> 28a48eb62915f70186dacf48f3a7bdba6e0a175f
 
    public static void main(String[] args) throws Exception {
         //runProducer(5);
@@ -73,7 +54,7 @@ public class AvroTempProducer {
 	//Currently exist for debugging purposes
         System.out.println(SECONDS);
         System.out.println(PARTITIONS);
-        System.out.println(BOOTSTRAP_SERVERS);
+        System.out.println(CONFLUENT_IP);
         System.out.println(TOPIC);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
