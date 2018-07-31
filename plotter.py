@@ -18,7 +18,7 @@ if sys.argv==[''] or len(sys.argv)<3:
   bucket_name = "iot-data"
   my_topic = "avro-demo"
 else:
-  buket_name = sys.argv[1]
+  bucket_name = sys.argv[1]
   my_topic = sys.argv[2]
 
 count = 0
@@ -66,22 +66,11 @@ def fileNameGenerator(offset):
 def pull_from_hyperstore(key_name):
   try:
     conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
-    print(conn, "connection made")
     bucket = Bucket(conn, bucket_name)
-    #bucket = conn.get_bucket(bucket_name)
-    print(bucket)
     gkey = Key(bucket=bucket, name=key_name)
-    #bucket.download_file(get_key_name(), get_key_name())
-    try:
-      gkey.get_contents_to_filename("this.avro")
-    except:
-      print("ya fucked up")
-    print("downloaded")
+    gkey.get_contents_to_filename("this.avro")
   except Exception as e:
     print(e)
-
-
-#print(fileNameGenerator(topic, partition, offset))
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
@@ -103,7 +92,7 @@ def animate(i):
     times += time
     print(temps)
     print(humidities)
-    print("\n"+str(times)+"\n")
+    print(str(times))
     # need to clear file
     ax1.plot(times, temps)
     ax2.plot(times, humidities)
