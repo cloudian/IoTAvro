@@ -12,9 +12,16 @@ import traceback
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation 
 
+import sys
+
+if sys.argv==[''] or len(sys.argv)<3:
+  bucket_name = "iot-data"
+  my_topic = "avro-demo"
+else:
+  buket_name = sys.argv[1]
+  my_topic = sys.argv[2]
+
 count = 0
-bucket_name = "iot-data"
-my_topic = "avro-demo"
 flush_size = 3
 
 offset = 0
