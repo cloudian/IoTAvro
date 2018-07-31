@@ -83,7 +83,6 @@ def animate(i):
   #print("Starting animate")
   global offset
   key = fileNameGenerator(offset)
-  #key = "topics/avro-demo/partition=0/avro-demo+0+0000000000.avro"
   offset = offset + flush_size
   try:
     f = open("this.avro", "w+")
@@ -105,7 +104,6 @@ def animate(i):
   except Exception as e:
     print(e)
     traceback.print_exc()
-    print("shit, we should put something in here")
 
 
 fig = plt.figure()
