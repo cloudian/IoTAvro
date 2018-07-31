@@ -29,7 +29,7 @@ try:
 	#print(bucket)
 	gkey = Key(bucket=bucket, name=get_key_name())
 	#bucket.download_file(get_key_name(), get_key_name())
-	print(gkey.get_contents_as_string())
+	print(gkey.get_contents_to_filename())
 	print("downloaded")
 except Exception as e:
 	print(e)
