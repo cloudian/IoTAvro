@@ -98,8 +98,10 @@ def animate(i):
     ax2.plot(times, humidities)
 
   except Exception as e:
-    print(e)
-    traceback.print_exc()
+    #print(e)
+    #traceback.print_exc()
+    ax1.plot(times, temps)
+    ax2.plot(times, humidities)
 
 
 fig = plt.figure()
