@@ -17,33 +17,40 @@ my_topic = "avro-demo"
 flush_size = 3
 
 offset = 0
-prefix = "topics/"+my_topic+"/partition=0/"+my_topic+"+0+"
+partition = 0
+prefix = "topics/"+str(my_topic)+"/partition="+str(partition)+"/"+str(my_topic)+"+"+str(partition)+"+"
+
+temps = []
+humidities = []
+times = []
 
 """Takes an Avro file with the appropriate Schema and returns a triple of
 three lists... (temperature, humidities, times)"""
 
 
 def fileParser(fileName):
-  print(fileName)
   reader = DataFileReader(open(fileName, "rb"), DatumReader())
-  humidities = []
-  temps = []
-  times = []
+  t_temps = []
+  t_humidities = []
+  t_times = []
   for user in reader:
-      humidities.append(user["Humidity"])
-      temps.append(user["Temperature"])
+      t_humidities.append(user["Humidity"])
+      t_temps.append(user["Temperature"])
       time = user["Timestamp"]
-      date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"])
-      #times.append(date.timestamp())
+      date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"], 0)
+      t_times.append(date)
   print(str(humidities) + "\n" + str(temps) + "\n")
+  reader.truncate(0)
   reader.close()
-  return (temps, humidities, times)
+  return (t_temps, t_humidities, t_times)
 
 
 """Generates a string with the name of the file from 
 topic, partition, and offset"""
 
-def fileNameGenerator(topic, partition, offset):
+
+def fileNameGenerator(offset):
+  '''
   count = 1
   leftOver = offset
   while (leftOver // 10 != 0):
@@ -55,6 +62,10 @@ def fileNameGenerator(topic, partition, offset):
   stringOffset += str(offset)
   fileName = topic + "+" + str(partition) + "+" + str(stringOffset) + ".avro"
   return fileName
+  '''
+  suffix = str(offset).zfill(10) + ".avro"
+  my_key = prefix + suffix
+  return my_key
 
 def pull_from_hyperstore(key_name):
   try:
@@ -65,47 +76,20 @@ def pull_from_hyperstore(key_name):
     print(bucket)
     gkey = Key(bucket=bucket, name=key_name)
     #bucket.download_file(get_key_name(), get_key_name())
-    print(gkey.get_contents_to_filename("this.avro"))
+    try:
+      gkey.get_contents_to_filename("this.avro")
+    except:
+      print("ya fucked up")
     print("downloaded")
   except Exception as e:
     print(e)
-    traceback.print_exc()
-
-'''
-def fileParser(avro_data):
-  reader = DataFileReader(avro_data, DatumReader())
-  humidities = []
-  temps = []
-  times = []
-  for user in reader:
-      print(user)
-      humidities.append(user["Humidity"])
-      temps.append(user["Temperature"])
-      time = user["Timestamp"]
-      date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"])
-      times.append(date.timestamp())
-  reader.close()
-  return (temps, humidities, times)
-  '''
 
 
-#print("Trying new things")
-#(temps, humidities, times) = fileParser("avro-temp-data+0+0000000006.avro")
-#print(temps)
-#print(humidities)
-#print(times)
-
-topic = "avro-temp-data"
-partition = 0
-offset = 3
-
-print(fileNameGenerator(topic, partition, offset))
+#print(fileNameGenerator(topic, partition, offset))
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
 
-#fig = plt.figure()
-#ax1 = fig.add_subplot(1,1,1)
 
 """def animate(i):
     offset = 0
@@ -126,28 +110,39 @@ print(fileNameGenerator(topic, partition, offset))
     ax1.plot(times, temps)
 """
 def animate(i):
-    print("Starting animate")
-    global count
-    count += 1
-    print(count)
-    offset = 0
-    temps = []
-    humidities = []
-    times = []
-    currentFile = fileNameGenerator(topic, partition, offset)
-    while (os.path.isfile(currentFile)):
-      (temp, hum, time) = fileParser(currentFile)
-      temps += temp
-      humidities += hum
-      times += time
-      offset += 3
-      currentFile = fileNameGenerator(topic, partition, offset)
-      print(currentFile)
+  #print("Starting animate")
+  global offset
+  key = fileNameGenerator(offset)
+  #key = "topics/avro-demo/partition=0/avro-demo+0+0000000000.avro"
+  offset = offset + flush_size
+  try:
+    pull_from_hyperstore(key)
+    print("hehehehehheheheh")
+    global temps, humidities, times
+    temp, humidity, time = fileParser("this.avro")
+    temps.append(temp)
+    humidities.append(humidity)
+    times.append(time)
+    print(temps)
+    print(humidities)
+    print(times)
+    # need to clear file
     ax1.plot(times, temps)
+    #ax2.plot(times, humidities)
 
-key = "topics/avro-demo/partition=0/avro-demo+0+0000000000.avro"
-pull_from_hyperstore(key)
-fileParser("this.avro")
-#ani = animation.FuncAnimation(fig, animate, interval=3000)
+  except:
+    print("shit, we should put something in here")
 
-#plt.show()
+
+fig = plt.figure()
+ax1 = fig.add_subplot(2,1,1)
+#ax2 = fig.add_subplot(2,1,2)
+
+#pull_from_hyperstore(key)
+#fileParser("this.avro")
+ani = animation.FuncAnimation(fig, animate, interval=5000)
+
+plt.show()
+
+
+
