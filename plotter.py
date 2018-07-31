@@ -3,11 +3,29 @@ from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
 import datetime
 import os.path
+import boto
+from boto.s3.bucket import Bucket
+from boto.s3.key import Key
+import traceback
+
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
 
 
 count = 0
+bucket_name = "iot-data"
+my_topic = "avro-demo"
+flush_size = 3
+
+offset = 0
+prefix = "topics/"+my_topic+"/partition=0/"+my_topic+"+0+"
+
+global temp
 """Takes an Avro file with the appropriate Schema and returns a triple of
 three lists... (temperature, humidities, times)"""
+
+'''
 def fileParser(fileName):
   print(fileName)
   reader = DataFileReader(open(fileName, "rb"), DatumReader())
@@ -22,25 +40,11 @@ def fileParser(fileName):
       times.append(date.timestamp())
   reader.close()
   return (temps, humidities, times)
-
-
-print("Trying new things")
-(temps, humidities, times) = fileParser("avro-temp-data+0+0000000006.avro")
-print(temps)
-print(humidities)
-print(times)
-
-
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style
-
-topic = "avro-temp-data"
-partition = 0
-offset = 3
+'''
 
 """Generates a string with the name of the file from 
 topic, partition, and offset"""
+
 def fileNameGenerator(topic, partition, offset):
   count = 1
   leftOver = offset
@@ -53,6 +57,47 @@ def fileNameGenerator(topic, partition, offset):
   stringOffset += str(offset)
   fileName = topic + "+" + str(partition) + "+" + str(stringOffset) + ".avro"
   return fileName
+
+def pull_from_hyperstore(key_name):
+  try:
+    conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
+    print(conn, "connection made")
+    bucket = Bucket(conn, bucket_name)
+    #bucket = conn.get_bucket(bucket_name)
+    #print(bucket)
+    gkey = Key(bucket=bucket, name=key_name)
+    #bucket.download_file(get_key_name(), get_key_name())
+    data = gkey.get_contents_as_string()
+    print("downloaded")
+    return data
+  except Exception as e:
+    print(e)
+    traceback.print_exc()
+
+def fileParser(avro_data):
+  reader = DataFileReader(avro_data, DatumReader())
+  humidities = []
+  temps = []
+  times = []
+  for user in reader:
+      humidities.append(user["Humidity"])
+      temps.append(user["Temperature"])
+      time = user["Timestamp"]
+      date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"])
+      times.append(date.timestamp())
+  reader.close()
+  return (temps, humidities, times)
+
+
+print("Trying new things")
+(temps, humidities, times) = fileParser("avro-temp-data+0+0000000006.avro")
+print(temps)
+print(humidities)
+print(times)
+
+topic = "avro-temp-data"
+partition = 0
+offset = 3
 
 print(fileNameGenerator(topic, partition, offset))
 
@@ -91,17 +136,13 @@ def animate(i):
     times = []
     currentFile = fileNameGenerator(topic, partition, offset)
     while (os.path.isfile(currentFile)):
-      print("stuck at beggining")
       (temp, hum, time) = fileParser(currentFile)
       temps += temp
       humidities += hum
       times += time
       offset += 3
-      print("stuck before file gen")
       currentFile = fileNameGenerator(topic, partition, offset)
-      print("stuck after file gen")
       print(currentFile)
-      print("Stuck at end")
     ax1.plot(times, temps)
 
 
