@@ -52,19 +52,6 @@ topic, partition, and offset"""
 
 
 def fileNameGenerator(offset):
-  '''
-  count = 1
-  leftOver = offset
-  while (leftOver // 10 != 0):
-    leftOver = leftOver // 10
-    count += 1
-  stringOffset = ""
-  for i in range(10 - count):
-    stringOffset += "0"
-  stringOffset += str(offset)
-  fileName = topic + "+" + str(partition) + "+" + str(stringOffset) + ".avro"
-  return fileName
-  '''
   suffix = str(offset).zfill(10) + ".avro"
   my_key = prefix + suffix
   return my_key
@@ -92,25 +79,6 @@ def pull_from_hyperstore(key_name):
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
 
-
-"""def animate(i):
-    offset = 0
-    temps = []
-    humidities = []
-    times = []
-    currentFile = fileNameGenerator(topic, partition, offset)
-    print(os.path.isfile(currentFile))
-    #while (os.path.isfile(currentFile)):
-    while (offset < 9): 
-      (temp, hum, time) = fileParser(currentFile)
-      temps += temp
-      humidities += hum
-      time += time
-      offset += 3
-      currentFile = fileNameGenerator(topic, partition, offset)
-      print(currentFile)
-    ax1.plot(times, temps)
-"""
 def animate(i):
   #print("Starting animate")
   global offset
