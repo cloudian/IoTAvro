@@ -2,6 +2,7 @@ import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
 import datetime
+import os
 import os.path
 import boto
 from boto.s3.bucket import Bucket
@@ -33,14 +34,15 @@ def fileParser(fileName):
   t_temps = []
   t_humidities = []
   t_times = []
+  global offset, zero_time
   for user in reader:
       t_humidities.append(user["Humidity"])
       t_temps.append(user["Temperature"])
       time = user["Timestamp"]
-      date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"], 0)
-      t_times.append(date)
-  print(str(humidities) + "\n" + str(temps) + "\n")
-  reader.truncate(0)
+      #date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"], 0)
+      phil_time = 60*60*time["Hour"] + 60*time["Minute"] + time["Second"]
+      t_times.append(phil_time)
+  #print(str(humidities) + "\n" + str(temps) + "\n")
   reader.close()
   return (t_temps, t_humidities, t_times)
 
@@ -116,27 +118,31 @@ def animate(i):
   #key = "topics/avro-demo/partition=0/avro-demo+0+0000000000.avro"
   offset = offset + flush_size
   try:
+    f = open("this.avro", "w+")
+    f.close()
     pull_from_hyperstore(key)
-    print("hehehehehheheheh")
     global temps, humidities, times
     temp, humidity, time = fileParser("this.avro")
-    temps.append(temp)
-    humidities.append(humidity)
-    times.append(time)
+    os.remove("this.avro")
+    temps += temp
+    humidities += humidity
+    times += time
     print(temps)
     print(humidities)
-    print(times)
+    print("\n"+str(times)+"\n")
     # need to clear file
     ax1.plot(times, temps)
-    #ax2.plot(times, humidities)
+    ax2.plot(times, humidities)
 
-  except:
+  except Exception as e:
+    print(e)
+    traceback.print_exc()
     print("shit, we should put something in here")
 
 
 fig = plt.figure()
 ax1 = fig.add_subplot(2,1,1)
-#ax2 = fig.add_subplot(2,1,2)
+ax2 = fig.add_subplot(2,1,2)
 
 #pull_from_hyperstore(key)
 #fileParser("this.avro")
