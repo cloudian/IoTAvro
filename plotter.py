@@ -34,7 +34,8 @@ def fileParser(fileName):
       temps.append(user["Temperature"])
       time = user["Timestamp"]
       date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"])
-      times.append(date.timestamp())
+      #times.append(date.timestamp())
+  print(str(humidities) + "\n" + str(temps) + "\n")
   reader.close()
   return (temps, humidities, times)
 
