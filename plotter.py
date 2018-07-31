@@ -69,8 +69,10 @@ def pull_from_hyperstore(key_name):
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
     gkey.get_contents_to_filename("this.avro")
-  except Exception as e:
-    print(e)
+  except:
+    a = ""
+
+    #print(e)
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
@@ -79,13 +81,13 @@ def animate(i):
   #print("Starting animate")
   global offset
   key = fileNameGenerator(offset)
-  offset = offset + flush_size
   try:
     f = open("this.avro", "w+")
     f.close()
     pull_from_hyperstore(key)
     global temps, humidities, times
     temp, humidity, time = fileParser("this.avro")
+    offset = offset + flush_size
     os.remove("this.avro")
     temps += temp
     humidities += humidity
@@ -110,7 +112,7 @@ ax2 = fig.add_subplot(2,1,2)
 
 #pull_from_hyperstore(key)
 #fileParser("this.avro")
-ani = animation.FuncAnimation(fig, animate, interval=5000)
+ani = animation.FuncAnimation(fig, animate, interval=1000)
 
 plt.show()
 
