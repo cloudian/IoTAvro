@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import java.lang.Runnable;
 import java.lang.Math;
 import java.util.Calendar;
-
+import java.util.Random;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
@@ -99,9 +99,12 @@ public class AvroTempProducer {
         Calendar cal = Calendar.getInstance();
         int d = cal.get(Calendar.DAY_OF_YEAR);
         int h = cal.get(Calendar.HOUR_OF_DAY);
+        Random r = new Random();
+        int temp_noise = r.nextInt(11) - 10;
+        int hum_noise = r.nextInt(11) - 10;
         int temp = (int) (11*Math.cos((2*Math.PI/365)*(d-244)) +
-                13*Math.cos((2*Math.PI/24)*(h-15)) + 45);
-        int humidity = (int) (15*Math.cos((2*Math.PI/24)*(h-4)) + 60);
+                13*Math.cos((2*Math.PI/24)*(h-15)) + 45) + temp_noise;
+        int humidity = (int) (15*Math.cos((2*Math.PI/24)*(h-4)) + 60) + hum_noise;
         temperature = TemperatureData.newBuilder()
                 .setTimestamp(TimeRecord.newBuilder()
                         .setYear(cal.get(Calendar.YEAR))
