@@ -105,11 +105,16 @@ def animate(i):
     ax1.plot(times, temps)
     ax2.plot(times, humidities)
 
-
+#formatting guide link https://matplotlib.org/users/text_intro.html
 fig = plt.figure()
 ax1 = fig.add_subplot(2,1,1)
+ax1.set_xlabel('Seconds')
+ax1.set_ylabel('Temperature C')
+ax1.set_title(topic + " Temperature Data")
 ax2 = fig.add_subplot(2,1,2)
-
+ax2.set_title(topic + " Humidity Data")
+ax2.set_xlabel('Seconds')
+ax2.set_ylabel('Humidity %')
 #pull_from_hyperstore(key)
 #fileParser("this.avro")
 ani = animation.FuncAnimation(fig, animate, interval=1000)
