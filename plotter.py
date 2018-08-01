@@ -14,13 +14,13 @@ import matplotlib.animation as animation
 
 import sys
 
-if sys.argv==[''] or len(sys.argv)<3:
-  bucket_name = "iot-data"
-  my_topic = "avro-demo"
+if sys.argv==[''] or len(sys.argv)<2:
+  my_topic = "p-1"
 else:
-  bucket_name = sys.argv[1]
-  my_topic = sys.argv[2]
+  my_topic = sys.argv[1]
 
+
+bucket_name = "iot-data"
 count = 0
 flush_size = 3
 

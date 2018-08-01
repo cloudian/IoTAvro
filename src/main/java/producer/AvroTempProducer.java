@@ -26,7 +26,7 @@ public class AvroTempProducer {
     private static String avroSerializer = KafkaAvroSerializer.class.getName();
     private static String stringSerializer = StringSerializer.class.getName();
     private static int SECONDS = 5;
-    private static int PARTITIONS = 0; //zero indexed
+    private static int PARTITIONS = 0; //no longer used
     private static  KafkaProducer<String, TemperatureData> producer;
 
     //Possibly move generate data to class initiaizer. VALUE IS SET IN
@@ -51,7 +51,7 @@ public class AvroTempProducer {
 
 
 
-   public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         //runProducer(5);
 	//The following four lines can be deleted
 	//Currently exist for debugging purposes
@@ -157,15 +157,6 @@ public class AvroTempProducer {
         //} finally {
         //  producer.flush();
         //  producer.close();
-    }
-
-    private static int increment(int k, int n) {
-        if (k < n) {
-            k++;
-        } else {
-            k = 0;
-        }
-        return k;
     }
 
     public static String getTemp() throws Exception {
