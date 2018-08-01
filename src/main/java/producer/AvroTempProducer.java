@@ -152,7 +152,6 @@ public class AvroTempProducer {
                 }
             }
         });
-        partition = increment(partition, PARTITIONS);
 
         //} finally {
         //  producer.flush();
