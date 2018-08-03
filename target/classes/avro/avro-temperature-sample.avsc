@@ -4,6 +4,7 @@
     "name": "TemperatureData",
     "version": "3",
     "fields": [
+        {"name": "ProducerID", "type": "string"},
         {"name": "Temperature", "type": "int"},
         {"name": "Humidity", "type": "double"},
         {"name": "Timestamp", "type":

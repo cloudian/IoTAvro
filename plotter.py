@@ -23,10 +23,11 @@ else:
 bucket_name = "iot-data"
 count = 0
 flush_size = 3
+ProducerID = "Computer"
 
 offset = 0
 partition = 0
-prefix = "topics/"+str(my_topic)+"/partition="+str(partition)+"/"+str(my_topic)+"+"+str(partition)+"+"
+prefix = "topics/"+str(my_topic)+"/ProducerID="+str(ProducerID)+"/"+str(my_topic)+"+"+str(partition)+"+"
 
 temps = []
 humidities = []
