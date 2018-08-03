@@ -79,7 +79,7 @@ def animate(i):
   #print("Starting animate")
   global offset
 
-  try:
+  try: 
     f = open("this.avro", "w+")
     f.close()
 

@@ -1,6 +1,7 @@
 package producer;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
+//import io.confluent.kafka.serializers.KafkaJsonSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.*;
 import java.util.Properties;
