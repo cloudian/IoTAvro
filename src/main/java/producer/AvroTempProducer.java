@@ -116,7 +116,7 @@ public class AvroTempProducer {
                             .build())
                     .setTemperature(temp)
                     .setHumidity(humidity)
-                    .setProducerID("Not_Computer")
+                    .setProducerID("Computer")
                     .build();
         } else {
             while (data == null) {

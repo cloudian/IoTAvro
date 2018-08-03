@@ -15,15 +15,15 @@ import matplotlib.animation as animation
 import sys
 
 if sys.argv==[''] or len(sys.argv)<2:
-  my_topic = "p-1"
+  ProducerID = "Computer"
+
 else:
-  my_topic = sys.argv[1]
+  ProducerID = sys.argv[1]
 
-
+my_topic = "sample-2"
 bucket_name = "iot-data"
 count = 0
-flush_size = 3
-ProducerID = "Computer"
+flush_size = 1
 
 offset = 0
 partition = 0
@@ -65,15 +65,12 @@ def fileNameGenerator(offset):
   return my_key
 
 def pull_from_hyperstore(key_name):
-  try:
     conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
     gkey.get_contents_to_filename("this.avro")
-  except:
-    a = ""
-
     #print(e)
+    #print("fuck that shit")
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
@@ -81,11 +78,23 @@ def pull_from_hyperstore(key_name):
 def animate(i):
   #print("Starting animate")
   global offset
-  key = fileNameGenerator(offset)
+
   try:
     f = open("this.avro", "w+")
     f.close()
-    pull_from_hyperstore(key)
+
+    attempts = 0
+    while (True):
+      key = fileNameGenerator(offset)
+      print(key)
+      try:
+        pull_from_hyperstore(key)
+        break
+      except:
+        offset += 1
+        attempts += 1
+        pass
+
     global temps, humidities, times
     temp, humidity, time = fileParser("this.avro")
     offset = offset + flush_size

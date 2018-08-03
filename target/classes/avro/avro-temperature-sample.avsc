@@ -2,7 +2,7 @@
     "type": "record",
     "namespace": "producer",
     "name": "TemperatureData",
-    "version": "3",
+    "version": "4",
     "fields": [
         {"name": "ProducerID", "type": "string"},
         {"name": "Temperature", "type": "int"},
