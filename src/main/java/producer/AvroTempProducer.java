@@ -20,14 +20,14 @@ import java.io.FileInputStream;
 public class AvroTempProducer {
 
     private static String TOPIC;
+    private static String KEY;
     private static String CONFLUENT_IP;
     private static String KAFKA_PORTS;
     private static String SCHEMA_REGISTRY_PORTS;
-    private static boolean generate_data = true;
+    private static boolean generate_data;
     private static String avroSerializer = KafkaAvroSerializer.class.getName();
     private static String stringSerializer = StringSerializer.class.getName();
     private static int SECONDS = 5;
-    private static int PARTITIONS = 0; //no longer used
     private static  KafkaProducer<String, TemperatureData> producer;
 
     //Possibly move generate data to class initiaizer. VALUE IS SET IN
@@ -46,21 +46,16 @@ public class AvroTempProducer {
         CONFLUENT_IP = properties.getProperty("confluent_ip");
         KAFKA_PORTS = properties.getProperty("kafka_ports");
         SCHEMA_REGISTRY_PORTS = properties.getProperty("schema_registry_ports");
-        SECONDS = Integer.parseInt(properties.getProperty("seconds"));
-        PARTITIONS = Integer.parseInt(properties.getProperty("partitions"));
+        SECONDS = Integer.parseInt(properties.getProperty("delay"));
+        KEY = properties.getProperty("key");
+        generate_data=Boolean.parseBoolean(properties.getProperty("generate_data"));
+
    }
 
 
 
     public static void main(String[] args) throws Exception {
-        //runProducer(5);
-	//The following four lines can be deleted
-	//Currently exist for debugging purposes
         org.apache.log4j.BasicConfigurator.configure();
-        System.out.println(SECONDS);
-        System.out.println(PARTITIONS);
-        System.out.println(CONFLUENT_IP);
-        System.out.println(TOPIC);
         producer = createProducer();
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
@@ -144,12 +139,11 @@ public class AvroTempProducer {
             System.out.println("temp was null");
         }
         final ProducerRecord<String, TemperatureData> record =
-                    new ProducerRecord<String, TemperatureData>(TOPIC, temperature);
+                    new ProducerRecord<String, TemperatureData>(TOPIC, KEY, temperature);
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception e) {
                     if (e == null) {
-
                         System.out.println("Record Successfully Sent");
                     } else {
                         System.out.println(e);
