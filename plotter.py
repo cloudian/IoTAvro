@@ -1,7 +1,10 @@
+'''
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
 import datetime
+'''
+
 import os
 import os.path
 import boto
@@ -116,7 +119,7 @@ def animate(i):
     temp, humidity, time = fileParser("this.json")
     print("parsed file")
     offset = offset + flush_size
-    #os.remove("this.avro")
+    os.remove("this.json")
     temps += temp
     humidities += humidity
     times += time
@@ -129,13 +132,13 @@ def animate(i):
 
   except Exception as e:
     print(e)
-    #traceback.print_exc()
+    traceback.print_exc()
     ax1.plot(times, temps)
     ax2.plot(times, humidities)
 
 #formatting guide link https://matplotlib.org/users/text_intro.html
 fig = plt.figure()
-fig.suptitle(my_topic, fontsize=14, fontweight='bold')
+fig.suptitle(ProducerID, fontsize=14, fontweight='bold')
 ax1 = fig.add_subplot(2,1,1)
 ax1.set_xlabel('Seconds')
 ax1.set_ylabel('Celsius')
