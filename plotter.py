@@ -13,6 +13,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation 
 
 import sys
+import json
 
 if sys.argv==[''] or len(sys.argv)<2:
   ProducerID = "Computer"
@@ -38,11 +39,20 @@ three lists... (temperature, humidities, times)"""
 
 
 def fileParser(fileName):
-  reader = DataFileReader(open(fileName, "rb"), DatumReader())
-  t_temps = []
-  t_humidities = []
-  t_times = []
-  global offset, zero_time
+
+  json_file = open('this.json')
+  print("opened")
+  json_str = json_file.read()
+  print("read")
+  json_data = json.loads(json_str)
+  print("read json")
+  
+  t_temps = [json_data["Humidity"]]
+  t_humidities = [json_data["Temperature"]]
+  t_times = [json_data["Timestamp"]["Hour"]*3600 + json_data["Timestamp"]["Minute"]*60 + json_data["Timestamp"]["Second"]]
+
+  #reader = DataFileReader(open(fileName, "rb"), DatumReader())
+  '''
   for user in reader:
       t_humidities.append(user["Humidity"])
       t_temps.append(user["Temperature"])
@@ -50,8 +60,9 @@ def fileParser(fileName):
       #date = datetime.datetime(time["Year"], time["Month"], time["Day"], time["Hour"], time["Minute"], time["Second"], 0)
       phil_time = 60*60*time["Hour"] + 60*time["Minute"] + time["Second"]
       t_times.append(phil_time)
+      '''
   #print(str(humidities) + "\n" + str(temps) + "\n")
-  reader.close()
+  #reader.close()
   return (t_temps, t_humidities, t_times)
 
 
@@ -68,7 +79,7 @@ def pull_from_hyperstore(key_name):
     conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
-    gkey.get_contents_to_filename("this.avro")
+    gkey.get_contents_to_filename("this.json")
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
@@ -77,7 +88,7 @@ def animate(i):
   #print("Starting animate")
   global offset
   try:
-    f = open("this.avro", "w+")
+    f = open("this.json", "w+")
     f.close()
     attempts = 0
     prev_offset=offset
@@ -89,7 +100,6 @@ def animate(i):
       print(key)
       try:
         pull_from_hyperstore(key)
-        print("puled from hyperstore")
         break
       except Exception as e:
         if attempts==5:
@@ -103,7 +113,8 @@ def animate(i):
         
 
     global temps, humidities, times
-    temp, humidity, time = fileParser("this.avro")
+    temp, humidity, time = fileParser("this.json")
+    print("parsed file")
     offset = offset + flush_size
     #os.remove("this.avro")
     temps += temp
@@ -117,7 +128,6 @@ def animate(i):
     ax2.plot(times, humidities)
 
   except Exception as e:
-    print("here")
     print(e)
     #traceback.print_exc()
     ax1.plot(times, temps)
