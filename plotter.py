@@ -20,7 +20,7 @@ if sys.argv==[''] or len(sys.argv)<2:
 else:
   ProducerID = sys.argv[1]
 
-my_topic = "sample-2"
+my_topic = "tim-demo"
 bucket_name = "iot-data"
 count = 0
 flush_size = 1
@@ -60,7 +60,7 @@ topic, partition, and offset"""
 
 
 def fileNameGenerator(offset):
-  suffix = str(offset).zfill(10) + ".avro"
+  suffix = str(offset).zfill(10) + ".json"
   my_key = prefix + suffix
   return my_key
 
@@ -78,12 +78,12 @@ def pull_from_hyperstore(key_name):
 def animate(i):
   #print("Starting animate")
   global offset
-
   try: 
     f = open("this.avro", "w+")
     f.close()
 
     attempts = 0
+    prev_offset=offset
     while (True):
       key = fileNameGenerator(offset)
       print(key)
@@ -91,8 +91,12 @@ def animate(i):
         pull_from_hyperstore(key)
         break
       except:
-        offset += 1
-        attempts += 1
+        if attempts==5:
+          offset=prev_offset
+          attempts=0
+        else:
+          offset += 1
+          attempts += 1
         pass
 
     global temps, humidities, times
