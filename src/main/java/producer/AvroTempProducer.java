@@ -139,7 +139,7 @@ public class AvroTempProducer {
             System.out.println("temp was null");
         }
         final ProducerRecord<String, TemperatureData> record =
-                    new ProducerRecord<String, TemperatureData>(TOPIC, KEY, temperature);
+                    new ProducerRecord<String, TemperatureData>(TOPIC, temperature);
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception e) {

@@ -20,7 +20,7 @@ if sys.argv==[''] or len(sys.argv)<2:
 else:
   ProducerID = sys.argv[1]
 
-my_topic = "tim-demo"
+my_topic = "timdemo"
 bucket_name = "iot-data"
 count = 0
 flush_size = 1
@@ -68,9 +68,8 @@ def pull_from_hyperstore(key_name):
     conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
+    print(gkey)
     gkey.get_contents_to_filename("this.avro")
-    #print(e)
-    #print("fuck that shit")
 
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
@@ -78,28 +77,30 @@ def pull_from_hyperstore(key_name):
 def animate(i):
   #print("Starting animate")
   global offset
-  try: 
+  try:
     f = open("this.avro", "w+")
+    print("heheheheheheheheheheheheheheheheheheheh")
     f.close()
-
     attempts = 0
     prev_offset=offset
     while (True):
       key = fileNameGenerator(offset)
-      print(key)
       try:
         pull_from_hyperstore(key)
         break
-      except:
+      except Exception as e:
+        print(e)
         if attempts==5:
           offset=prev_offset
           attempts=0
+          break
         else:
           offset += 1
           attempts += 1
         pass
 
     global temps, humidities, times
+    print("here")
     temp, humidity, time = fileParser("this.avro")
     offset = offset + flush_size
     os.remove("this.avro")
@@ -114,7 +115,7 @@ def animate(i):
     ax2.plot(times, humidities)
 
   except Exception as e:
-    #print(e)
+    print(e)
     #traceback.print_exc()
     ax1.plot(times, temps)
     ax2.plot(times, humidities)
