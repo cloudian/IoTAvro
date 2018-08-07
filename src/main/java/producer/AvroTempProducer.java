@@ -74,7 +74,7 @@ public class AvroTempProducer {
     private static KafkaProducer< String, TemperatureData>createProducer() {
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", CONFLUENT_IP + ":" + KAFKA_PORTS);
-        props.setProperty("key.serializer", stringSerializer);
+        props.setProperty("key.serializer", avroSerializer);
         props.setProperty("value.serializer", avroSerializer);
         props.setProperty("schema.registry.url", "http://" + CONFLUENT_IP +
                 ":" + SCHEMA_REGISTRY_PORTS);
@@ -112,7 +112,7 @@ public class AvroTempProducer {
                             .build())
                     .setTemperature(temp)
                     .setHumidity(humidity)
-                    .setProducerID("Computer")
+                    .setProducerID(KEY)
                     .build();
         } else {
             while (data == null) {
@@ -132,7 +132,7 @@ public class AvroTempProducer {
                             .build())
                     .setTemperature(Integer.parseInt(info[7]))
                     .setHumidity(Integer.parseInt(info[8]))
-                    .setProducerID("Raspberry_Pi")
+                    .setProducerID(KEY)
                     .build();
         }
         if (temperature == null) {
