@@ -21,7 +21,7 @@ if sys.argv==[''] or len(sys.argv)<2:
 else:
   ProducerID = sys.argv[1]
 
-my_topic = "working-topic"
+my_topic = "tim-topic"
 bucket_name = "iot-data"
 count = 0
 flush_size = 1
