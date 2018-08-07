@@ -60,7 +60,7 @@ topic, partition, and offset"""
 
 
 def fileNameGenerator(offset):
-  suffix = str(offset).zfill(10) + ".json"
+  suffix = str(offset).zfill(10) + ".avro"
   my_key = prefix + suffix
   return my_key
 
@@ -68,7 +68,6 @@ def pull_from_hyperstore(key_name):
     conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
-    print(gkey)
     gkey.get_contents_to_filename("this.avro")
 
 # Example file name listed below for reference
@@ -83,27 +82,29 @@ def animate(i):
     f.close()
     attempts = 0
     prev_offset=offset
+    #key = "topics/timdemo/ProducerID=Computer/timdemo+0+0000000003.avro"
+    #pull_from_hyperstore(key)
+    
     while (True):
       key = fileNameGenerator(offset)
+      print(key)
       try:
         pull_from_hyperstore(key)
         break
       except Exception as e:
-        print(e)
         if attempts==5:
           offset=prev_offset
           attempts=0
-          break
         else:
           offset += 1
           attempts += 1
         pass
+        
 
     global temps, humidities, times
-    print("here")
     temp, humidity, time = fileParser("this.avro")
     offset = offset + flush_size
-    os.remove("this.avro")
+    #os.remove("this.avro")
     temps += temp
     humidities += humidity
     times += time
