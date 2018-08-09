@@ -44,11 +44,8 @@ three lists... (temperature, humidities, times)"""
 def fileParser(fileName):
 
   json_file = open('this.json')
-  print("opened")
   json_str = json_file.read()
-  print("read")
   json_data = json.loads(json_str)
-  print("read json")
   
   t_temps = [json_data["Humidity"]]
   t_humidities = [json_data["Temperature"]]
@@ -100,7 +97,6 @@ def animate(i):
     
     while (True):
       key = fileNameGenerator(offset)
-      print(key)
       try:
         pull_from_hyperstore(key)
         break
@@ -117,7 +113,6 @@ def animate(i):
 
     global temps, humidities, times
     temp, humidity, time = fileParser("this.json")
-    print("parsed file")
     offset = offset + flush_size
     os.remove("this.json")
     temps += temp
@@ -131,8 +126,8 @@ def animate(i):
     ax2.plot(times, humidities)
 
   except Exception as e:
-    print(e)
-    traceback.print_exc()
+    #print(e)
+    #traceback.print_exc()
     ax1.plot(times, temps)
     ax2.plot(times, humidities)
 

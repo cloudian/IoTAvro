@@ -3,6 +3,7 @@ producer/Sample.class
 producer/TemperatureData.class
 producer/TimeRecord$1.class
 producer/Sample$1.class
+producer/AvroTempProducer$MyProducer.class
 producer/TemperatureData$Builder.class
 producer/AvroTempProducer$2.class
 producer/TemperatureData$1.class

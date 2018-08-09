@@ -1,8 +1,6 @@
 package producer;
 
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
-//import io.confluent.kafka.serializers.KafkaJsonSerializer;
-import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.producer.*;
 import java.util.Properties;
 import java.util.concurrent.Executors;
@@ -16,6 +14,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AvroTempProducer {
 
@@ -26,9 +26,9 @@ public class AvroTempProducer {
     private static String SCHEMA_REGISTRY_PORTS;
     private static boolean generate_data;
     private static String avroSerializer = KafkaAvroSerializer.class.getName();
-    private static String stringSerializer = StringSerializer.class.getName();
     private static int SECONDS = 5;
-    private static  KafkaProducer<String, TemperatureData> producer;
+    private static int NUM_PRODUCERS;
+    private static int index;
 
     //Possibly move generate data to class initiaizer. VALUE IS SET IN
     //config.properties file to true
@@ -48,20 +48,44 @@ public class AvroTempProducer {
         SCHEMA_REGISTRY_PORTS = properties.getProperty("schema_registry_ports");
         SECONDS = Integer.parseInt(properties.getProperty("delay"));
         KEY = properties.getProperty("key");
+        NUM_PRODUCERS = Integer.parseInt(properties.getProperty("num_producers"));
         generate_data=Boolean.parseBoolean(properties.getProperty("generate_data"));
+    }
 
-   }
 
+    private static class MyProducer {
+        private KafkaProducer<String, TemperatureData> producer;
+        private String producerID;
+        private MyProducer(int id) {
+            Properties props = new Properties();
+            props.setProperty("bootstrap.servers", CONFLUENT_IP + ":" + KAFKA_PORTS);
+            props.setProperty("key.serializer", avroSerializer);
+            props.setProperty("value.serializer", avroSerializer);
+            props.setProperty("schema.registry.url", "http://" + CONFLUENT_IP +
+                    ":" + SCHEMA_REGISTRY_PORTS);
+            producer = new KafkaProducer<>(props);
+            producerID = "" + id;
+        }
+        public KafkaProducer<String, TemperatureData> getProducer() {
+            return this.producer;
+        }
 
+        public String getID() {
+            return this.producerID;
+        }
+    }
 
     public static void main(String[] args) throws Exception {
-        org.apache.log4j.BasicConfigurator.configure();
-        producer = createProducer();
+        List<MyProducer> producers = new ArrayList<>();
+        for (int i = 0; i < NUM_PRODUCERS; i++) {
+            producers.add(new MyProducer(i));
+        }
+        int nProducer = 0;
         ScheduledExecutorService readData = Executors.newScheduledThreadPool(5);
         Runnable runnable = new Runnable() {
             public void run() {
                 try {
-                    runProducer(1);
+                    runProducer(producers);
                 } catch (Exception e) {
                     Thread t = Thread.currentThread();
                     t.getUncaughtExceptionHandler().uncaughtException(t, e);
@@ -71,25 +95,16 @@ public class AvroTempProducer {
         };
         readData.scheduleAtFixedRate(runnable, 0, 1000*SECONDS, TimeUnit.MILLISECONDS);
     }
-    private static KafkaProducer< String, TemperatureData>createProducer() {
-        Properties props = new Properties();
-        props.setProperty("bootstrap.servers", CONFLUENT_IP + ":" + KAFKA_PORTS);
-        props.setProperty("key.serializer", avroSerializer);
-        props.setProperty("value.serializer", avroSerializer);
-        props.setProperty("schema.registry.url", "http://" + CONFLUENT_IP +
-                ":" + SCHEMA_REGISTRY_PORTS);
-        //props.put("key.serializer", stringSerializer);
-        //props.put("value.serializer", jsonSerializer);
-        KafkaProducer<String, TemperatureData> producer = new KafkaProducer<>(props);
-        return producer;
-    }
 
-    public static void runProducer(int p) throws Exception {
-        //final Producer<Integer, String> producer = createProducer();
-        int partition = 0;
+    public static void runProducer(List<MyProducer> producers) throws Exception {
         //String key = "not real shit";
         String data = null;
         TemperatureData temperature;
+        MyProducer current = producers.remove(0);
+        KafkaProducer<String, TemperatureData> producer = current.getProducer();
+        String producerID = current.getID();
+        System.out.println(producerID);
+        producers.add(current);
 
         if (generate_data) {
             Calendar cal = Calendar.getInstance();
@@ -112,7 +127,7 @@ public class AvroTempProducer {
                             .build())
                     .setTemperature(temp)
                     .setHumidity(humidity)
-                    .setProducerID(KEY)
+                    .setProducerID(producerID)
                     .build();
         } else {
             while (data == null) {
@@ -120,7 +135,7 @@ public class AvroTempProducer {
                 Thread.sleep(500);
             }
             String[] info = data.split("[\\s\\D]+");
-            //[year, month, day, hour, minute, second, millisecond, temp]
+            //[year, month, day, hour, minute, second, millisecond, temp, humidity]
             temperature = TemperatureData.newBuilder()
                     .setTimestamp(TimeRecord.newBuilder()
                             .setYear(Integer.parseInt(info[0]))
@@ -135,22 +150,19 @@ public class AvroTempProducer {
                     .setProducerID(KEY)
                     .build();
         }
-        if (temperature == null) {
-            System.out.println("temp was null");
-        }
         final ProducerRecord<String, TemperatureData> record =
-                    new ProducerRecord<String, TemperatureData>(TOPIC, temperature);
-            producer.send(record, new Callback() {
-                @Override
-                public void onCompletion(RecordMetadata metadata, Exception e) {
-                    if (e == null) {
-                        System.out.println("Record Successfully Sent");
-                    } else {
-                        System.out.println(e);
+                new ProducerRecord<>(TOPIC, temperature);
+        producer.send(record, new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata metadata, Exception e) {
+                if (e == null) {
+                    System.out.println("Record Successfully Sent");
+                } else {
+                    System.out.println(e);
 
-                    }
                 }
-            });
+            }
+        });
 
         //} finally {
         //  producer.flush();
