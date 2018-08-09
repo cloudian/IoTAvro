@@ -1,4 +1,4 @@
-	'''
+'''
 import avro.schema
 from avro.datafile import DataFileReader, DataFileWriter
 from avro.io import DatumReader, DatumWriter
@@ -24,7 +24,7 @@ if sys.argv==[''] or len(sys.argv)<2:
 else:
   ProducerID = sys.argv[1]
 
-my_topic = "tim-topic"
+my_topic = "gary-topic"
 bucket_name = "iot-data"
 count = 0
 flush_size = 1
