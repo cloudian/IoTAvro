@@ -70,14 +70,6 @@ bucket = Bucket(conn, bucket_name)
 
 
 
-def getNextResults(pid):
-  results = bucket.get_all_keys(max_keys=1, headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=" + str(pid), marker= idToLastResult[pid])
-  if len(results) > 0:
-    idToLastResult[pid] = keyToFileName(results[0])
-    return results[0]
-  else:
-    return None
-
 
 '''
 r2 = bucket.get_all_keys(max_keys = 10,  headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=", marker = keyToFileName(results[9]))
@@ -165,7 +157,9 @@ def fileNameGenerator(offset):
 def getNextResults(pid):
   conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
   bucket = Bucket(conn, bucket_name)
-  results = bucket.get_all_keys(max_keys=1, headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=" + str(pid), marker= idToLastResult[pid])
+  results = bucket.get_all_keys(max_keys=1, headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=" + str(pid) + "/", marker= idToLastResult[pid])
+  if len(results) == 1:
+    print(keyToFileName(results[0]))
   if len(results) > 0:
     idToLastResult[pid] = keyToFileName(results[0])
     results[0].get_contents_to_filename("this.json")
@@ -192,14 +186,16 @@ def animate(i):
         te, h, t = fileParser("this.json")
         print("parsed file")
         print(i)
-        print(temps)
         temps[i] += te
         hums[i] += h
         time[i] += t    
-      os.remove("this.json")
+        os.remove("this.json")
       ax1.plot(time[i], temps[i])
       ax2.plot(time[i], hums[i])
-
+    print(time)
+    print(len(time[0]))
+    print(len(time[1]))
+    print(len(time[2]))
   except Exception as e:
     print(e)
     traceback.print_exc()
