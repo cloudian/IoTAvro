@@ -25,12 +25,11 @@ public class AvroTempProducer {
     private static String KAFKA_PORTS;
     private static String SCHEMA_REGISTRY_PORTS;
     private static boolean generate_data;
-    private static String avroSerializer = KafkaAvroSerializer.class.getName();
+    private static String AVRO_SERIALIZER = KafkaAvroSerializer.class.getName();
     private static int SECONDS = 5;
     private static int NUM_PRODUCERS;
-    private static int index;
 
-    //Possibly move generate data to class initiaizer. VALUE IS SET IN
+    //Possibly move generate data to class initializer. VALUE IS SET IN
     //config.properties file to true
 
 
@@ -59,8 +58,8 @@ public class AvroTempProducer {
         private MyProducer(int id) {
             Properties props = new Properties();
             props.setProperty("bootstrap.servers", CONFLUENT_IP + ":" + KAFKA_PORTS);
-            props.setProperty("key.serializer", avroSerializer);
-            props.setProperty("value.serializer", avroSerializer);
+            props.setProperty("key.serializer", AVRO_SERIALIZER);
+            props.setProperty("value.serializer", AVRO_SERIALIZER);
             props.setProperty("schema.registry.url", "http://" + CONFLUENT_IP +
                     ":" + SCHEMA_REGISTRY_PORTS);
             producer = new KafkaProducer<>(props);
