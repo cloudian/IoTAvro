@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ade0a981-585f-4cc9-8424-65f0662e4bb0" name="Default" comment="" />
+    <list default="true" id="ade0a981-585f-4cc9-8424-65f0662e4bb0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,8 +26,8 @@
       <file leaf-file-name="AvroTempProducer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+            <state relative-caret-position="-1536">
+              <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2688#2689#0" expanded="true" />
@@ -244,7 +246,7 @@
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info active="true" anchor="right" id="Maven Projects" order="3" visible="true" weight="0.1595136" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3298969" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.1765464" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.22680412" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32860824" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
@@ -632,8 +634,8 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer2.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/producer/AvroTempProducer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="97" lean-forward="true" selection-start-line="97" selection-end-line="97" />
+        <state relative-caret-position="-1536">
+          <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2688#2689#0" expanded="true" />
