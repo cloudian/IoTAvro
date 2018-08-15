@@ -93,15 +93,13 @@ print(keyToFileName(results[9]))
 
 def fileParser(fileName):
   json_file = open(fileName)
-  print("opened")
   json_str = json_file.read()
-  print("read")
   json_data = json.loads(json_str)
-  print("read json")
 
   t_temps = [json_data["Humidity"]]
   t_humidities = [json_data["Temperature"]]
   t_times = [json_data["Timestamp"]["Hour"]*3600 + json_data["Timestamp"]["Minute"]*60 + json_data["Timestamp"]["Second"]]
+  print(t_times)
 
   return (t_temps, t_humidities, t_times)
 
@@ -183,7 +181,6 @@ def animate(i):
       if None != getNextResults(i):
         global temps, hums, time
         te, h, t = fileParser("this.json")
-        print("parsed file")
         print(i)
         temps[i] += te
         hums[i] += h
@@ -191,10 +188,10 @@ def animate(i):
         os.remove("this.json")
       ax1.plot(time[i], temps[i])
       ax2.plot(time[i], hums[i])
-    print(time)
-    print(len(time[0]))
-    print(len(time[1]))
-    print(len(time[2]))
+    #print(time)
+    #print(len(time[0]))
+    #print(len(time[1]))
+    #print(len(time[2]))
   except Exception as e:
     print(e)
     traceback.print_exc()
@@ -211,7 +208,7 @@ ax1.set_title("Temperature")
 ax2 = fig.add_subplot(2,1,2)
 ax2.set_title("Humidity")
 ax2.set_xlabel('Seconds')
-ax2.set_ylabel('Percentage %')
+ax2.set_ylabel('% Humidity')
 #pull_from_hyperstore(key)
 #fileParser("this.avro")
 ani = animation.FuncAnimation(fig, animate, interval=1000)

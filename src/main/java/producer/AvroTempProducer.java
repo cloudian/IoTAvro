@@ -102,7 +102,6 @@ public class AvroTempProducer {
         MyProducer current = producers.remove(0);
         KafkaProducer<String, TemperatureData> producer = current.getProducer();
         String producerID = current.getID();
-        System.out.println(producerID);
         producers.add(current);
 
         if (generate_data) {
@@ -157,7 +156,7 @@ public class AvroTempProducer {
                 if (e == null) {
                     System.out.println("Record Successfully Sent");
                 } else {
-                    System.out.println(e);
+                    //System.out.println(e);
 
                 }
             }
