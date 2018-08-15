@@ -20,14 +20,15 @@ import json
 
 pc = 1
 
+my_topic = "scaled-topic"
 
 if sys.argv==[''] or len(sys.argv)<2:
   pc = 1
 
 else:
-  pc = int(sys.argv[1])
+  my_topic = sys.argv[1]
+  pc = int(sys.argv[2])
   print(pc)
-my_topic = "scaled-topic"
 bucket_name = "iot-data"
 count = 0
 flush_size = 1
@@ -65,8 +66,6 @@ print(time)
 
 
 
-conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
-bucket = Bucket(conn, bucket_name)
 
 
 
@@ -155,7 +154,7 @@ def fileNameGenerator(offset):
 
 
 def getNextResults(pid):
-  conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
+  conn = boto.connect_s3(aws_access_key_id = "00c36f16c2600f70ae60", aws_secret_access_key = "XsSbmCIfcYrX5NdCBj7n1QSaU2lhdgDJJBDlT7VE", host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
   bucket = Bucket(conn, bucket_name)
   results = bucket.get_all_keys(max_keys=1, headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=" + str(pid) + "/", marker= idToLastResult[pid])
   if len(results) == 1:
@@ -168,7 +167,7 @@ def getNextResults(pid):
     return None
 
 def pull_from_hyperstore(key_name):
-    conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
+    conn = boto.connect_s3(aws_access_key_id = "00c36f16c2600f70ae60", aws_secret_access_key = "XsSbmCIfcYrX5NdCBj7n1QSaU2lhdgDJJBDlT7VE",host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
     gkey.get_contents_to_filename("this.json")
