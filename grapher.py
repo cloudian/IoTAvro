@@ -75,7 +75,10 @@ def fileParser(fileName):
 
 
 def getNextResults(pid):
-  conn = boto.connect_s3(aws_access_key_id = "00c36f16c2600f70ae60", aws_secret_access_key = "XsSbmCIfcYrX5NdCBj7n1QSaU2lhdgDJJBDlT7VE", host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
+  try:
+    conn = boto.connect_s3(host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
+  except Exception as e:
+    conn = boto.connect_s3(aws_access_key_id = "00c36f16c2600f70ae60", aws_secret_access_key = "XsSbmCIfcYrX5NdCBj7n1QSaU2lhdgDJJBDlT7VE", host = 'tims4.mobi-cloud.com', port=80, is_secure = False)
   bucket = Bucket(conn, bucket_name)
   results = bucket.get_all_keys(max_keys=1, headers=None, prefix= "topics/"+str(my_topic)+"/ProducerID=" + str(pid) + "/", marker= idToLastResult[pid])
   if len(results) == 1:
@@ -87,12 +90,14 @@ def getNextResults(pid):
   else:
     return None
 
+'''
 def pull_from_hyperstore(key_name):
+    try: 
     conn = boto.connect_s3(aws_access_key_id = "00c36f16c2600f70ae60", aws_secret_access_key = "XsSbmCIfcYrX5NdCBj7n1QSaU2lhdgDJJBDlT7VE",host = 'tims4.mobi-cloud.com', port=80, is_secure = False) 
     bucket = Bucket(conn, bucket_name)
     gkey = Key(bucket=bucket, name=key_name)
     gkey.get_contents_to_filename("this.json")
-
+'''
 # Example file name listed below for reference
 #/Users/philiplassen/Downloads/avro-temp-data+0+0000000006.avro
 
