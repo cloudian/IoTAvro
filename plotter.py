@@ -37,7 +37,7 @@ temps = []
 humidities = []
 times = []
 
-"""Takes an Avro file with the appropriate Schema and returns a triple of
+"""Takes an Avro file with appropriate Schema and returns a triple of
 three lists... (temperature, humidities, times)"""
 
 
